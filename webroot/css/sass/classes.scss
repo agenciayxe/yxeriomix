@@ -1,0 +1,35 @@
+* { margin: 0px; word-wrap: break-word; }
+body, html { margin: 0px; padding: 0px; font-family: 'Open Sans'; }
+body { background-color: $corBranco; color: $corPrincipal; /* margin-top: 100px; */ }
+a, a:hover, a:active, a:focus, a:visited { cursor: pointer; text-decoration: none !important; }
+
+.only-print {
+    display: none;
+}
+@media print {
+    * {
+        color: $corText !important;
+    }
+    .only-print {
+        display: block;
+    }
+    .no-print {
+        visibility: hidden;
+        display: none;
+    }
+}
+
+.badge.badge-warning{background-color:#edce00 !important; }
+.badge.badge-secondary{background-color:#acacac !important; }
+.badge.badge-success{background-color:#28a745 !important; }
+.badge.badge-secondary{background-color:#acacac !important; }
+.badge.badge-warning{background-color:#edce00 !important; }
+.badge.badge-warning{background-color:#edce00 !important; }
+.badge.badge-primary{background-color:#007bff !important; }
+.badge.badge-dark{background-color:#333 !important; }
+.badge.badge-danger{background-color:#dc3545 !important; }
+.badge.badge-purple{background-color:#a500a8 !important;color:#fff !important; }
+.badge.badge-pink{background-color:#ff0095 !important;color:#fff !important; }
+.badge.badge-general{background-color:#73e9ff !important; }
+.badge.badge-orange{background-color:#ec5d00 !important; color:#fff !important; }
+.badge.badge-disapproved{background-color:#cd98fc !important; color:#fff !important; }

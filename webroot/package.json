@@ -1,0 +1,18 @@
+{
+  "name": "dr-limpa-tudo",
+  "version": "1.0.0",
+  "description": "Site de Higienização",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fullcalendar/core": "^5.3.1",
+    "@fullcalendar/daygrid": "^5.3.2",
+    "jquery": "^3.5.1",
+    "ng2-eonasdan-datetimepicker": "^0.1.4",
+    "select2": "file:select2"
+  }
+}
