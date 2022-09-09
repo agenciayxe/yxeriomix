@@ -87,24 +87,41 @@
                                                 <th class="actions"><?= __('Ações') ?></th>
                                             </tr>
                                         </thead>
-                                        <?php foreach ($client->sales as $sales) : ?>
+                                        <?php
+                                        $addressId = false;
+                                        foreach ($sales as $saleSingle) : ?>
+
+                                        <?php
+                                        if ($addressId != $saleSingle->location_id) {
+                                            $addressId = $saleSingle->location_id;
+                                            ?>
+                                            <tbody>
+                                                <tr class="bg-light text-dark">
+                                                    <th colspan="4">
+                                                        <?php echo $saleSingle->location->address; ?>
+                                                    </th>
+                                                </tr>
+                                            </tbody>
+                                            <?php
+                                        }
+                                        ?>
                                         <tbody>
                                             <tr class="item-36896">
                                                 <td data-th="Última Devolução">
-                                                    <p><?= strftime("%d/%m/%Y", strtotime($sales->date_devolution)); ?></p>
+                                                    <p><?= strftime("%d/%m/%Y", strtotime($saleSingle->date_devolution)); ?></p>
                                                 </td>
                                                 <td data-th="Economia no Mês">
                                                     <span class="nowrap">
-                                                        R$ <?= number_format($sales->economia, 2, ',', '.') ?>
+                                                        R$ <?= number_format($saleSingle->economia, 2, ',', '.') ?>
                                                     </span>
                                                 </td>
                                                 <td data-th="Economia Acumulado">
                                                     <span class="nowrap">
-                                                        R$ <?= number_format($sales->economia_acumulado, 2, ',', '.') ?>
+                                                        R$ <?= number_format($saleSingle->economia_acumulado, 2, ',', '.') ?>
                                                     </span>
                                                 </td>
                                                 <td class="actions">
-                                                    <?= $this->Html->link(__('Ver Serviço'), ['controller' => 'Sales', 'action' => 'view', $sales->id], ['class' => 'btn btn-pill mx-1 px-5 btn-primary']) ?>
+                                                    <?= $this->Html->link(__('Ver Serviço'), ['controller' => 'Sales', 'action' => 'view', $saleSingle->id], ['class' => 'btn btn-pill mx-1 px-5 btn-primary']) ?>
                                                 </td>
                                             </tr>
                                         </tbody>

@@ -28,11 +28,13 @@ class ClientsController extends AppController {
     }
 
     public function view($id = null) {
-
         $client = $this->Clients->get($id, [
             'contain' => ['Statuses', 'Sales'],
         ]);
+        $listSales = TableRegistry::get('sales');
+        $sales = $listSales->find('all')->where(['sales.client_id' => $id])->order(['location_id' => 'ASC'])->contain(['Locations']);
         $this->set('client', $client);
+        $this->set('sales', $sales);
     }
 
     public function add() {

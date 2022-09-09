@@ -16,13 +16,4 @@ class Client extends Entity {
         'status_id' => true,
         'status' => true,
     ];
-    protected $_hidden = [
-        'password',
-    ];
-    protected function _setPassword($password)
-    {
-        if (strlen($password) > 0) {
-          return (new DefaultPasswordHasher)->hash($password);
-        }
-    }
 }

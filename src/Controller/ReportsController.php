@@ -106,7 +106,7 @@ class ReportsController extends AppController {
                 $sales[$idClientCurrent]['economia'] += $saleSingle->economia;
                 $saleNumber++;
             }
-            $sales[$idClientCurrent]['coeficiente'] = $sales[$idClientCurrent]['coeficiente'] / $saleNumber;
+            $sales[$idClientCurrent]['coeficiente'] = $sales[$idClientCurrent]['devolucao'] / $sales[$idClientCurrent]['vendas'];
 
             $sales[$idClientCurrent]['number'] = $saleNumber;
         }

@@ -30,14 +30,11 @@ class SalesController extends AppController
         $sale = $this->Sales->get($id, [
             'contain' => ['Clients']
         ]);
+        $listLocations = TableRegistry::get('locations');
+        $location = $listLocations->find('all')->where(['id' => $sale->location_id])->first();
 
-        $listUsers = TableRegistry::get('users');
-        $technicianData = ($sale->technician_id) ? $listUsers->get($sale->technician_id): null;
-        $sellerData = ($sale->seller_id) ? $listUsers->get($sale->seller_id): null;
-
-        $this->set(compact('technicianData'));
-        $this->set(compact('sellerData'));
         $this->set('sale', $sale);
+        $this->set('location', $location);
     }
     public function add() {
 
@@ -45,15 +42,9 @@ class SalesController extends AppController
     public function addcomplete() {
 
         $listClients = TableRegistry::get('clients');
-        $listStatus = TableRegistry::get('statuses');
         $listCustomers = TableRegistry::get('customers');
-
-        $allStatuses = $listStatus->find('all');
-        foreach ($allStatuses as $statusSingle) {
-            $idStatus = $statusSingle->id;
-            $statuses[$idStatus] = $statusSingle->title;
-        }
-        $this->set(compact('statuses'));
+        $listTechnicians = TableRegistry::get('locations');
+        $listLocations = TableRegistry::get('locations');
 
         $client = $listClients->newEmptyEntity();
         $sale = $this->Sales->newEmptyEntity();
@@ -64,29 +55,40 @@ class SalesController extends AppController
             $clientSave = $listClients->save($client);
             if ($clientSave) {
 
-                if ($this->request->is('post')) {
-                    $sale = $this->Sales->patchEntity($sale, $this->request->getData());
-                    $sale->client_id = $clientSave->id;
-                    $sale->coeficiente = $sale->devolucao / $sale->vendas;
-                    $sale->economia = 0.8 * $sale->devolucao;
-                    if ($this->Sales->save($sale)) {
-                        $sale = $this->Sales->patchEntity($sale, $this->request->getData());
-                        $this->Sales->save($sale);
-
-                        $customer = $listCustomers->patchEntity($customer, $this->request->getData());
-                        $customer->client_id = $clientSave->id;
-                        $customer->status = 1;
-                        $passwordHash = new DefaultPasswordHasher();
-                        $customer->password = $passwordHash->hash($customer->password);
-                        $listCustomers->save($customer);
-
-                        $this->Flash->success(__('Serviço e cliente salvo com sucesso.'));
-
-                        return $this->redirect(['action' => 'index']);
+                $locationId = false;
+                if ($this->request->getData('address') && $this->request->getData('complement')) {
+                    $locations = $listLocations->newEmptyEntity();
+                    $location = $listLocations->patchEntity($locations, $this->request->getData());
+                    $location->client_id =  $clientSave->id;
+                    $locationSave = $listLocations->save($location);
+                    if ($locationSave) {
+                        $locationId = $locationSave->id;
                     }
-                    $this->Flash->error(__('O serviço não foi salvo, tente novamente.'));
                 }
+                if ($locationId) {
+                    if ($this->request->is('post')) {
+                        $sale = $this->Sales->patchEntity($sale, $this->request->getData());
+                        $sale->client_id = $clientSave->id;
+                        $sale->coeficiente = $sale->devolucao / $sale->vendas;
+                        $sale->economia = 0.8 * $sale->devolucao;
+                        if ($this->Sales->save($sale)) {
+                            $sale = $this->Sales->patchEntity($sale, $this->request->getData());
+                            $this->Sales->save($sale);
 
+                            $customer = $listCustomers->patchEntity($customer, $this->request->getData());
+                            $customer->client_id = $clientSave->id;
+                            $customer->status = 1;
+                            $passwordHash = new DefaultPasswordHasher();
+                            $customer->password = $passwordHash->hash($customer->password);
+                            $listCustomers->save($customer);
+
+                            $this->Flash->success(__('Serviço e cliente salvo com sucesso.'));
+
+                            return $this->redirect(['action' => 'index']);
+                        }
+                        $this->Flash->error(__('O serviço não foi salvo, tente novamente.'));
+                    }
+                }
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('O cliente não foi salvo, tente novamente.'));
@@ -99,6 +101,7 @@ class SalesController extends AppController
 
         $listClients = TableRegistry::get('clients');
         $listTechnicians = TableRegistry::get('users');
+        $listLocations = TableRegistry::get('locations');
 
         $listStatus = TableRegistry::get('statuses');
         $allStatuses = $listStatus->find('all');
@@ -112,17 +115,32 @@ class SalesController extends AppController
         if ($this->request->is('post')) {
             $sale = $this->Sales->patchEntity($sale, $this->request->getData());
             if ($sale->client_id) {
-                if ($sale->date < $sale->date_end || $sale->date_end == null) {
-                    $sale->coeficiente = $sale->devolucao / $sale->vendas;
-                    $sale->economia = 0.8 * $sale->devolucao;
-                    if ($this->Sales->save($sale)) {
-                        $sale = $this->Sales->patchEntity($sale, $this->request->getData());
-                        $this->Sales->save($sale);
-                        $this->Flash->success(__('Serviço salvo com sucesso.'));
-
-                        return $this->redirect(['action' => 'index']);
+                $locationId = false;
+                if ($this->request->getData('address') && $this->request->getData('complement')) {
+                    $locations = $listLocations->newEmptyEntity();
+                    $location = $listLocations->patchEntity($locations, $this->request->getData());
+                    $locationSave = $listLocations->save($location);
+                    if ($locationSave) {
+                        $locationId = $locationSave->id;
                     }
-                    $this->Flash->error(__('O serviço não foi salvo, tente novamente.'));
+                }
+                else if ($this->request->getData('location_id')) {
+                    $locationId = $this->request->getData('location_id');
+                }
+                if ($locationId) {
+                    if ($sale->date < $sale->date_end || $sale->date_end == null) {
+                        $sale->coeficiente = $sale->devolucao / $sale->vendas;
+                        $sale->economia = 0.8 * $sale->devolucao;
+                        $sale->location_id = $locationId;
+                        if ($this->Sales->save($sale)) {
+                            $sale = $this->Sales->patchEntity($sale, $this->request->getData());
+                            $this->Sales->save($sale);
+                            $this->Flash->success(__('Serviço salvo com sucesso.'));
+
+                            return $this->redirect(['action' => 'index']);
+                        }
+                        $this->Flash->error(__('O serviço não foi salvo, tente novamente.'));
+                    }
                 }
                 $this->Flash->error(__('O serviço não foi salvo, verifique as datas.'));
             }

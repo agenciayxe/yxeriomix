@@ -9,6 +9,7 @@ class Sale extends Entity {
     protected $_accessible = [
         'id' => true,
         'client_id' => true,
+        'location_id' => true,
         'vendas' => true,
         'devolucao' => true,
         'coeficiente' => true,

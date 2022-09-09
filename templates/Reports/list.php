@@ -27,6 +27,7 @@
                                                 <th class="text-right">Devoluções </th>
                                                 <th class="text-right">Coeficiente </th>
                                                 <th class="text-right">Economia </th>
+                                                <th class="text-right">protetrometro </th>
                                                 <th class="text-right">Recolhimentos </th>
                                             </tr>
                                         </thead>
@@ -42,6 +43,7 @@
                                                     <td class="text-right"><?php echo number_format($sales[$idCurrent]['devolucao'], 0, ',', '.'); ?></td>
                                                     <td class="text-right"><?php echo number_format($sales[$idCurrent]['coeficiente'], 3, ',', '.'); ?></td>
                                                     <td class="text-right">R$ <?php echo number_format($sales[$idCurrent]['economia'], 2, ',', '.'); ?></td>
+                                                    <td class="text-right"><?php echo number_format((($sales[$idCurrent]['devolucao'] / 100) / 50), 2, ',', '.'); ?></td>
                                                     <td class="text-right"><?php echo $sales[$idCurrent]['number']; ?></td>
                                                 </tr>
                                             <?php

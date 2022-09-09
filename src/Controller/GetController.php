@@ -109,6 +109,24 @@ class GetController extends AppController
         $this->set(compact('clients'));
         $this->viewBuilder()->setLayout('ajax');
     }
+
+    public function searchlocation()
+    {
+        $pesquisa = $this->request->getQuery('term');
+        $clientId = $this->request->getQuery('clientId');
+        if ($clientId) {
+            $locationsTable = TableRegistry::get('Locations');
+            $locations = $this->paginate($locationsTable->find('all', [
+                'conditions' => [
+                    'AND' => [
+                        'Locations.address LIKE' => '%' . $pesquisa . '%'
+                    ]
+                ]
+            ])->where(['client_id' => $clientId]));
+            $this->set(compact('locations'));
+        }
+        $this->viewBuilder()->setLayout('ajax');
+    }
     public function savestatus()
     {
         $responseSale = [

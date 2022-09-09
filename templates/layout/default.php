@@ -140,6 +140,22 @@ $cakeDescription = 'Riomix - Sistema';
                     </li>
                 </ul>
             </li>
+
+            <li class="c-sidebar-nav-dropdown">
+                <a href="#" class="c-sidebar-nav-dropdown-toggle">
+                <i class="fas fa-clipboard-check c-sidebar-nav-icon"></i>
+                    Certificados
+                </a>
+
+                <ul class="c-sidebar-nav-dropdown-items">
+                    <li class="c-sidebar-nav-item">
+                        <a href="<?= $this->Url->build(['controller' => 'certificates', 'action' => 'index']); ?>" class="c-sidebar-nav-link">
+                            <i class="fas fa-list c-sidebar-nav-icon"></i>
+                            Lista
+                        </a>
+                    </li>
+                </ul>
+            </li>
             <li class="c-sidebar-nav-dropdown">
                 <a href="#" class="c-sidebar-nav-dropdown-toggle">
                 <i class="fas fa-newspaper c-sidebar-nav-icon"></i>

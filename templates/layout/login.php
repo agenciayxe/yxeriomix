@@ -56,10 +56,14 @@ $cakeDescription = 'Riomix - Login';
 <body class="c-app flex-row align-items-center">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-8 col-xl-4">
                 <div class="card-group">
                     <div class="card p-4">
                         <div class="card-body">
+
+                            <div class="text-center pb-3">
+                                <img src="img/logo-blue.png" style="max-width: 200px" class="img-fluid" alt="">
+                            </div>
                             <form action="<?php echo $this->Url->Build(['controller' => 'login', 'action' => 'index']); ?>" method="POST">
                                 <h1>Entrar</h1>
                                 <p class="text-muted">Entre em sua conta</p>
@@ -77,22 +81,13 @@ $cakeDescription = 'Riomix - Login';
                                             </svg></span></div>
                                     <input class="form-control" name="password" type="password" placeholder="Senha">
                                 </div>
+                                <input type="hidden" name="_csrfToken" value="<?php echo $this->request->getAttribute('csrfToken'); ?>">
                                 <div class="row">
                                     <div class="col-6">
                                         <button class="btn btn-primary px-4" type="submit">Entrar</button>
                                     </div>
-                                    <!-- <div class="col-6 text-right">
-                                        <button class="btn btn-link px-0" type="button">Esqueci a senha?</button>
-                                    </div> -->
                                 </div>
                             </form>
-                        </div>
-                    </div>
-                    <div class="card text-white bg-dark py-5 d-md-down-none" style="width:44%">
-                        <div class="card-body text-center">
-                            <div>
-                                <img src="img/logo.png" class="img-fluid" alt="">
-                            </div>
                         </div>
                     </div>
                 </div>

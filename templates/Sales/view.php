@@ -51,6 +51,9 @@
                                     <i class="far fa-clock"></i>
                                     Data e Horário: <?= strftime("%d/%m/%Y - %H:%M", strtotime($sale->date_devolution)); ?>
                                 <p>
+                                    <i class="far fa-clock"></i>
+                                    Endereço: <?= $location->address . ' ' . $location->complement; ?>
+                                <p>
                                     <?php
                                     $telefone = $sale->client->phone;
                                     $phoneNumber = preg_replace("/[^0-9]/", "", $sale->client->phone);
@@ -64,11 +67,6 @@
                                     <i class="far fa-envelope"></i>
                                     <a href="mailto:<?= h($sale->client->email) ?>"><?= h($sale->client->email) ?></a>
                                 <p>
-                                <span class="no-print">
-                                    <a href=javascript:print();><button class="btn btn-pill mx-1 my-3 px-5 btn-primary">Imprimir Ordem</button></a>
-                                    <a href="<?php echo $this->Url->build(['controller' => 'sales', 'action' => 'rotas']); ?>?id=<?= $sale->id; ?>"><button class="btn btn-pill mx-1 my-3 px-5 btn-primary">Copiar Para Zap</button></a>
-                                    <a href="<?php echo $this->Url->build(['controller' => 'sales', 'action' => 'rotas']); ?>?datestart=<?= strftime("%Y-%m-%d", strtotime($sale->date)); ?>&technician_id=<?php echo $sale->technician_id; ?>"><button class="btn btn-pill mx-1 my-3 px-5 btn-primary">Ver na Rota ZAP</button></a>
-                                </span>
                             </div>
                             <!-- ITENS -->
                             <div class="content-divider jumbotron my-3 py-3">

@@ -1,3 +1,3 @@
-<?php
-echo json_encode($responseService);
+<?php
+echo json_encode($responseService);
 ?>

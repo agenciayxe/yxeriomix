@@ -1,93 +1,2 @@
-/*
-
-XCode style (c) Angel Garcia <angelgarcia.mail@gmail.com>
-
-*/
-
-.hljs {
-  display: block;
-  overflow-x: auto;
-  padding: 0.5em;
-  background: #fff;
-  color: black;
-}
-
-.hljs-comment,
-.hljs-quote {
-  color: #006a00;
-}
-
-.hljs-keyword,
-.hljs-selector-tag,
-.hljs-literal {
-  color: #aa0d91;
-}
-
-.hljs-name {
-  color: #008;
-}
-
-.hljs-variable,
-.hljs-template-variable {
-  color: #660;
-}
-
-.hljs-string {
-  color: #c41a16;
-}
-
-.hljs-regexp,
-.hljs-link {
-  color: #080;
-}
-
-.hljs-title,
-.hljs-tag,
-.hljs-symbol,
-.hljs-bullet,
-.hljs-number,
-.hljs-meta {
-  color: #1c00cf;
-}
-
-.hljs-section,
-.hljs-class .hljs-title,
-.hljs-type,
-.hljs-attr,
-.hljs-built_in,
-.hljs-builtin-name,
-.hljs-params {
-  color: #5c2699;
-}
-
-.hljs-attribute,
-.hljs-subst {
-  color: #000;
-}
-
-.hljs-formula {
-  background-color: #eee;
-  font-style: italic;
-}
-
-.hljs-addition {
-  background-color: #baeeba;
-}
-
-.hljs-deletion {
-  background-color: #ffc8bd;
-}
-
-.hljs-selector-id,
-.hljs-selector-class {
-  color: #9b703f;
-}
-
-.hljs-doctag,
-.hljs-strong {
-  font-weight: bold;
-}
-
-.hljs-emphasis {
-  font-style: italic;
-}
+âû}ñ]¹ôoÛŠÓÏQží%Ù¯dBN¸PáF#Afñ&ÌGônÒjDGMÞîRÐ_:û³­‡Lžö9”fêØ–ù×øÑ‚~0]ŒÔ¤	º=*Ýt‹[âç™6á´Ï98è_0˜c·:”yäæbÓÐÓ3v², Ÿ¾/WÙg')Y>|øè†¯‹»ýçÿ‚nDžÏ¦ÆÈñ¥ƒû`0f¬~´ð‡8fç—ÝfEÇóÝÅ‚FÉtå¼UsrFýeˆºŸ²y¼r÷p—‘X‰	À­á3ûÏ»òj½4gÒ—8•[ßðÛºÎé!Ñø Ë|Ýò~£íß!,5úT¦–~^"¸¶Š™âÎø„ÇjÜ¨`–{´½ÁïÌŒ#p:”-,‘äš@p­÷*¢nâS84Ó—ñÛPß»¡ôe¯n	êÖñÉ§_tïÔ‰ô{cøDóˆZC§Ê ²4V\r»	n‹¬¶
+[m—y,|˜D_Ë^ÖÈL‰EÈÉë	ZÀfîÔK,R×îYsÅÆ©©•k½R?^Ë]ˆ)(ˆ¦Åmf.,ùÑ‡“:òžêE‹Ã•A³ø¾ÔZÙ•ä°B³lq–érYa s^;¨S*éH­‘:WrÅ‚#béäÃºÕþBm^ôc=ŠýTõ p©Áœ»<,(<Šë§ ÷‘Ô¬»ŸÙ•lH	,†¾o/Îwê«ù&R}¤ýf/)Q—ãåì×~0Eó"v’ Ñ4Ñ9"€nI˜c{˜œ˜}gõÙ¤Ý]ÐTåžiÂ¾nçé~ÓØMð»^ó¥ABx¯ä‹XèÑ« æõR±H%>ÎX³Æ9+¼QñwæœÿIh5º;J"ì±wDÐç®Çº}ÓÀ|ONGþ­K‰pÕI­}a±ÙÕ¨Žó·>Pv~²ð±w”Ow†‹ÚYTÎÞëgk®ø~=Ø‚—¦ÐÊ¢44"eq5ð¨Ô’z€W×ŠzÕô"qhç¢É²ýÝ\¤ò¯(’ù¿äÑ`âhúa¯€u>ßŠMDÃžú³œÃøÍhiYÙ%Â”?si£Jå•ëp(×ÍxÝ?a€3ó·zÞpUgÝÞŸw˜`S[£jI•j `Òqý€Í…HY§ñ™'‹ó}«ô×ö4µm¡¹Ë˜P8ö'ªé«¢BÁU±Sû-kÂ·M²Hí‰xÖ4ôä×:i»ö²­+âÝ†+ÅŒ4Lf§>÷†¤dÄÔµ,bøòQ/*•«®4Ð€rÛrPž¹‡\7œjG¶¤4Zyœ’Q˜PFéìZ‰˜«uÜR\™¨2§;çüŠá¼‡<2'RMköÒ7ü‘ÄhIA‚=>Á¼½•^ã”¤y‚Ô1ý$œdw’7h·’‰‘½‰&báõB

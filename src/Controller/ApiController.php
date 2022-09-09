@@ -25,7 +25,6 @@ class ApiController extends AppController
         $this->set(compact('response'));
     }
     public function login() {
-
         $response = array(
             'status' => false,
             'user' => '',
@@ -159,7 +158,6 @@ class ApiController extends AppController
         $response = json_encode($response);
         $this->set(compact('response'));
     }
-
     public function registerverify() {
         $response = array(
             'status' => false,
@@ -172,7 +170,6 @@ class ApiController extends AppController
         if ($this->request->getQuery('code') && $this->request->getQuery('username')) {
             $customerEmail = $this->request->getQuery('username');
             $tokenCode = $this->request->getQuery('code');
-
 
             $customer = $listCustomers->find('all')->where(['username' => $customerEmail]);
             $customerInfo = $customer->first();
@@ -374,36 +371,6 @@ class ApiController extends AppController
         $this->set(compact('response'));
 
     }
-    public function reciclerindividual() {
-
-        $listSale = TableRegistry::get('sales');
-        $listClient = TableRegistry::get('clients');
-        $response = array();
-        if ($this->request->getQuery('client_id')) {
-            $clientId = $this->request->getQuery('client_id');
-            $recicler = $listSale->find('all')->where(['client_id' => $clientId]);
-
-            $clientInfo = $listClient->find()->where(['id' => $clientId])->first();
-            foreach ($recicler as $reciclerSingle) {
-
-                $dateBuy = (string) $reciclerSingle->date_buy;
-                $reciclerSingle->date_buy = strftime("%d/%m/%Y", strtotime($dateBuy));
-
-                $dateDevolution = (string) $reciclerSingle->date_devolution;
-                $reciclerSingle->date_devolution = strftime("%d/%m/%Y", strtotime($dateDevolution));
-
-                $reciclerSingle->coeficiente = number_format($reciclerSingle->coeficiente, 3, ',', '.');
-
-                $reciclerSingle->client_name = $clientInfo->name;
-
-                $reciclerSingle->economia = 'R$ ' . number_format($reciclerSingle->economia, 2, ',', '.');
-                $response[] = $reciclerSingle;
-            }
-        }
-        $response = json_encode($response);
-        $this->set(compact('response'));
-
-    }
     public function reciclergeral() {
 
         $listSale = TableRegistry::get('sales');
@@ -435,10 +402,10 @@ class ApiController extends AppController
             }
             $coeficiente = ($coeficiente != 0 && $servicosQuantity != 0) ? $coeficiente / $servicosQuantity : 0;
 
-            $response['vendas'] = $totalVendas;
-            $response['devolucoes'] = $totalDevolucoes;
-            $response['coeficiente'] = $coeficiente;
-            $response['economia'] = $economia;
+            $response['vendas'] = number_format($totalVendas, 0, ',', '.');
+            $response['devolucoes'] = number_format($totalDevolucoes, 0, ',', '.');
+            $response['coeficiente'] = number_format($coeficiente, 0, ',', '.');
+            $response['economia'] = 'R$ ' . number_format($economia, 2, ',', '.');
             $response['familias'] = floor($totalDevolucoes / 5000);
             $response['client_id'] = $clientId;
         }
@@ -535,5 +502,257 @@ class ApiController extends AppController
         $this->set(compact('response'));
 
     }
+    public function reciclermensal() {
+        // Tabelas
+        $listSale = TableRegistry::get('sales');
+        $listClient = TableRegistry::get('clients');
+        $listLocations = TableRegistry::get('locations');
+        $response = array();
+        // Verificar Cliente
+        if ($this->request->getQuery('client_id')) {
 
+            // Buscar Recolhimentos Pela data de compra
+            $clientId = $this->request->getQuery('client_id');
+            $recicler = $listSale->find('all')->where(['client_id' => $clientId])->order(['date_buy' => 'DESC']);
+            $locations = $listLocations->find('all')->where(['client_id' => $clientId]);
+            $arrayLocations = array();
+            foreach ($locations as $singleLocations) {
+                $idLocation = (int) $singleLocations->id;
+                $arrayLocations[$idLocation] = $singleLocations->complement;
+            }
+
+            $month = array();
+
+            // Loop de recolhimento
+            foreach ($recicler as $singleService) {
+                // Data de Compra - Efetuar Calculo
+                $dateBuy = (string) $singleService->date_buy;
+                $locationId = (int) $singleService->location_id;
+                $dataCompra = strftime("%Y-%m-01", strtotime($dateBuy));
+                $dateBuy = strftime("%m/%Y", strtotime($dateBuy));
+
+                // Verificando se existe dados
+                if (!isset($month[$dateBuy][$locationId])) {
+                    $month[$dateBuy][$locationId]['vendas'] = 0;
+                    $month[$dateBuy][$locationId]['devolucoes'] = 0;
+                    $month[$dateBuy][$locationId]['economia_mes'] = 0;
+                }
+
+                // Adicionando dados por data
+                $month[$dateBuy][$locationId]['data_compra'] = $dataCompra;
+                $month[$dateBuy][$locationId]['vendas'] += $singleService->vendas;
+                $month[$dateBuy][$locationId]['devolucoes'] += $singleService->devolucao;
+                $month[$dateBuy][$locationId]['economia_mes'] = 0.8 * $month[$dateBuy][$locationId]['devolucoes'];
+
+            }
+            $monthReturn = array();
+
+            // Loop de Mês
+            foreach ($month as $nameMonth => $singleMonth) {
+
+                foreach ($singleMonth as $locationIdCurrent => $locationMoth) {
+                    // Tratamento dos Dados
+                    $locationMoth['data_compra'] = strftime("%Y-%m-%d 23:59:59", strtotime(date("Y-m-t", strtotime($locationMoth['data_compra']))));
+                    $periodo = [ 'conditions' => [ 'OR' => [ [ 'date_devolution <= ' => $locationMoth['data_compra'], ] ], ] ];
+                    $acumulado = $listSale->find('all', $periodo)->where(['client_id' => $clientId, 'location_id' => $locationIdCurrent]);
+                    $acumuladoVendas = 0;
+                    $acumuladoDevolucoes = 0;
+
+                    // Acumulador de Vendas
+                    foreach ($acumulado as $acumuladoSingle) {
+                        $acumuladoVendas += $acumuladoSingle->vendas;
+                        $acumuladoDevolucoes += $acumuladoSingle->devolucao;
+                    }
+
+                    // Calculo Final
+                    $acumuladoCoeficiente = $acumuladoDevolucoes / $acumuladoVendas;
+                    $acumuladoFamilias = floor($acumuladoDevolucoes / 5000);
+                    $acumuladoProtetometro = ($acumuladoDevolucoes / 5000);
+                    $acumuladoEconomia = 0.8 * $acumuladoDevolucoes;
+
+                    // Formatação de Dados
+                    $monthReturn[] = array(
+                        'name' =>  $nameMonth . ' - ' . $arrayLocations[$locationIdCurrent],
+                        'location_id' => $locationIdCurrent,
+                        'location_name' => $arrayLocations[$locationIdCurrent],
+                        'client_id' => $clientId,
+                        'date_end' => $locationMoth['data_compra'],
+
+                        'vendas_mes' => number_format($locationMoth['vendas'], 0, ',', '.'),
+                        'devolucoes_mes' => number_format($locationMoth['devolucoes'], 0, ',', '.'),
+                        'economia_mes' => 'R$ ' . number_format($locationMoth['economia_mes'], 2, ',', '.'),
+
+                        'vendas_acumulado' => number_format($acumuladoVendas, 0, ',', '.'),
+                        'devolucoes_acumulado' => number_format($acumuladoDevolucoes, 0, ',', '.'),
+                        'economia_acumulado' => 'R$ ' . number_format($acumuladoEconomia, 2, ',', '.'),
+                        'coeficiente' => number_format($acumuladoCoeficiente, 3, ',', '.'),
+                        'protetometro' => number_format($acumuladoProtetometro, 2, ',', '.'),
+                        'pes' => number_format(($acumuladoProtetometro * 100), 0, ',', '.') . '%',
+                        'familias' => $acumuladoFamilias,
+                    );
+                }
+            }
+            $response[] = $monthReturn;
+        }
+        $response = json_encode($response);
+        $this->set(compact('response'));
+
+    }
+    public function gerarpdf() {
+
+        // Tabelas
+        $listSale = TableRegistry::get('sales');
+        $listClient = TableRegistry::get('clients');
+        $listCertificates = TableRegistry::get('certificates');
+        $listLocations = TableRegistry::get('locations');
+        $response = array();
+
+        // Verificar Data
+        if ($this->request->getQuery('client_id') && $this->request->getQuery('date_end') && $this->request->getQuery('location_id')) {
+
+            // Salvar Cliente
+            $clientId = $this->request->getQuery('client_id');
+            $date_end = $this->request->getQuery('date_end');
+            $locationId = $this->request->getQuery('location_id');
+
+            // Procurar Cliente
+            $clientInfo = $listClient->find()->where(['id' => $clientId])->first();
+
+            // Data de Compra
+            $date_initial = strftime("%Y-%m-01", strtotime(date("Y-m-t", strtotime($date_end))));
+            $date_end = strftime("%Y-%m-%d", strtotime(date("Y-m-t", strtotime($date_end))));
+            $date_now = strftime("%Y-%m-%d %H:%M:%S", strtotime('now'));
+
+            // Periodo
+            $periodo = [ 'conditions' => [ 'AND' => [ [ 'date_devolution >= ' => $date_initial, 'date_devolution <= ' => $date_end, ] ], ] ];
+
+            // Pesquisa de Recolhimentos
+            $recicler = $listSale->find('all', $periodo)->where(['client_id' => $clientId, 'location_id' => $locationId])->order(['date_buy' => 'DESC']);
+
+            $monthCertificate = array();
+
+            // Dados
+            $monthCertificate['vendas'] = 0;
+            $monthCertificate['devolucoes'] = 0;
+            $monthCertificate['economia_mes'] = 0;
+            $locais = array();
+            foreach ($recicler as $singleService) {
+                $monthCertificate['vendas'] += $singleService->vendas;
+                $monthCertificate['devolucoes'] += $singleService->devolucao;
+                $monthCertificate['economia_mes'] = 'R$ ' . number_format((0.8 * $monthCertificate['devolucoes']), 2, ',', '.');
+                $locais[] = $singleService->location_id;
+            }
+
+            $monthCertificate['volume_mes'] = number_format(($monthCertificate['devolucoes'] / 100), 2, ',', '.');
+
+            // Month Compra
+            $monthReturnCertificate = array();
+            $monthCertificate['data_compra'] = strftime("%Y-%m-%d 23:59:59", strtotime(date("Y-m-t", strtotime($date_initial))));
+            $periodo = [ 'conditions' => [ 'OR' => [ [ 'date_devolution <= ' => $date_end, ] ], ] ];
+            $acumulado = $listSale->find('all', $periodo)->where(['client_id' => $clientId, 'location_id' => $locationId])->order(['date_devolution' => 'DESC']);
+            $acumuladoVendas = 0;
+            $acumuladoDevolucoes = 0;
+            foreach ($acumulado as $acumuladoSingle) {
+                $acumuladoVendas += $acumuladoSingle->vendas;
+                $acumuladoDevolucoes += $acumuladoSingle->devolucao;
+            }
+
+            // Calculo Final
+            $acumuladoCoeficiente = $acumuladoDevolucoes / $acumuladoVendas;
+            $acumuladoFamilias = floor($acumuladoDevolucoes / 5000);
+            $acumuladoProtetometro = ($acumuladoDevolucoes / 5000);
+            $acumuladoEconomia = 0.8 * $acumuladoDevolucoes;
+            $acumuladoPes = $acumuladoProtetometro * 100;
+
+            // Compilando os Dados
+            $monthCertificate['name'] = $clientInfo->name;
+            $monthCertificate['client_id'] = $clientInfo->id;
+            $monthCertificate['data_compra'] = $date_initial;
+
+            $monthCertificate['vendas_acumulado'] = number_format($acumuladoVendas, 0, ',', '.');
+            $monthCertificate['devolucoes_acumulado'] = number_format($acumuladoDevolucoes, 0, ',', '.');
+            $monthCertificate['economia_acumulado'] = 'R$ ' . number_format($acumuladoEconomia, 2, ',', '.');
+            $monthCertificate['volume_acumulado'] = number_format(($acumuladoDevolucoes / 100), 2, ',', '.');
+            $monthCertificate['coeficiente'] = number_format($acumuladoCoeficiente, 3, ',', '.');
+            $monthCertificate['protetometro'] = number_format($acumuladoProtetometro, 2, ',', '.');
+            $monthCertificate['familias'] = $acumuladoFamilias;
+            $monthCertificate['pes'] = number_format($acumuladoPes, 0, ',', '.');
+
+            $monthCertificate['date_initial'] = strftime("01/%m/%Y", strtotime($date_initial));
+            $monthCertificate['date_slug'] = strftime("%Y-%m-01", strtotime($date_initial));
+            $monthCertificate['date_end'] = strftime("%d/%m/%Y", strtotime($date_end));
+
+            $locations = $listLocations->find('all')->where(['id' => $locationId]);
+            foreach ($locations as $singleLocations) {
+                $monthCertificate['location'] = $singleLocations->address . ' (' . $singleLocations->complement . ')';
+            }
+
+            // Verificando Certificado
+            $searchCertificate = $listCertificates->find('all')->where(['client_id' => $clientId, 'date_initial' =>  $date_initial]);
+            $searchCertificateQuantity = ($searchCertificate->count()) ? $searchCertificate->count(): 0;
+
+            $monthCertificate['request'] = "vendas=" . $monthCertificate['vendas'] . "&devolucoes=" . $monthCertificate['devolucoes'] . "&economia_mes=" . $monthCertificate['economia_mes'] . "&volume_mes=" . $monthCertificate['volume_mes'] . "&data_compra=" . $monthCertificate['data_compra'] . "&name=" . urlencode($monthCertificate['name']) . "&client_id=" . $monthCertificate['client_id'] . "&vendas_acumulado=" . $monthCertificate['vendas_acumulado'] . "&devolucoes_acumulado=" . $monthCertificate['devolucoes_acumulado'] . "&economia_acumulado=" . $monthCertificate['economia_acumulado'] . "&volume_acumulado=" . $monthCertificate['volume_acumulado'] . "&coeficiente=" . $monthCertificate['coeficiente'] . "&protetometro=" . $monthCertificate['protetometro'] . "&familias=" . $monthCertificate['familias'] . "&pes=" . $monthCertificate['pes'] . "&date_initial=" . $monthCertificate['date_initial'] . "&date_slug=" . $monthCertificate['date_slug'] . "&date_end=" . $monthCertificate['date_end'] . "&location=" . urlencode($monthCertificate['location']);
+
+            // Gerando PDF
+            $curl = curl_init("https://yxe.com.br/sites/riomix-pdf/");
+            curl_setopt($curl, CURLOPT_URL,"https://yxe.com.br/sites/riomix-pdf/");
+            curl_setopt($curl, CURLOPT_POST, 1);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $monthCertificate['request']);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            $urlCurrent = curl_exec($curl);
+            $fileArray = json_decode($urlCurrent);
+            $monthCertificate['file_url'] = $fileArray->file_url;
+            $monthCertificate['file_name'] = $fileArray->file_name;
+
+            // Nenhum Certificado
+            if ($searchCertificateQuantity == 0) {
+                // Dados
+                $certificate = $listCertificates->newEmptyEntity();
+                $certificate = $listCertificates->patchEntity($certificate, $this->request->getData());
+
+                // Certificados Salvo
+                $certificate->url = $monthCertificate['file_url'];
+                $certificate->client_id = $clientId;
+                $certificate->vendas = $monthCertificate['vendas'];
+                $certificate->devolucao = $monthCertificate['devolucoes'];
+                $certificate->coeficiente = $monthCertificate['coeficiente'];
+                $certificate->economia = $monthCertificate['economia_mes'];
+                $certificate->date_initial = $date_initial;
+                $certificate->date_end = $date_end;
+                $certificate->date_created = $date_now;
+                $certificateSave = $listCertificates->save($certificate);
+                // Salvar
+                if ($certificateSave) {
+                    $certificateId = $certificateSave->id;
+                    $monthCertificate['id'] = $certificateId;
+                }
+
+            }
+            else if ($searchCertificateQuantity == 1) {
+                foreach ($searchCertificate as $singleSearchCertificate) {
+                    $certificate = $listCertificates->get($singleSearchCertificate->id);
+                    $certificate = $listCertificates->patchEntity($certificate, $this->request->getData());
+
+                    $certificate->url = $monthCertificate['file_url'];
+                    $certificate->client_id = $clientId;
+                    $certificate->vendas = $monthCertificate['vendas'];
+                    $certificate->devolucao = $monthCertificate['devolucoes'];
+                    $certificate->coeficiente = $monthCertificate['coeficiente'];
+                    $certificate->economia = $monthCertificate['economia_mes'];
+                    $certificate->date_initial = $date_initial;
+                    $certificate->date_end = $date_end;
+                    $certificate->date_created = $date_now;
+                    $certificateSave = $listCertificates->save($certificate);
+                    if ($certificateSave) {
+                        $certificateId = $certificateSave->id;
+                        $monthCertificate['id'] = $certificateId;
+                    }
+                }
+            }
+            else { $monthCertificate = ''; }
+            $response[] = $monthCertificate;
+        }
+        $response = json_encode($response);
+        $this->set(compact('response'));
+    }
 }

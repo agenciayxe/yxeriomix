@@ -39,11 +39,7 @@
                                     </div>
                                     <hr>
                                     <legend><?= __('Endereço') ?></legend>
-                                    
-                                    <div class="row my-3">
-                                        <div class="col-md-3 py-1"><?php echo $this->Form->control('address', ['class' => 'input-contato', 'label' => 'Endereço', 'class' => 'form-control']); ?></div>
-                                        <div class="col-md-3 py-1"><?php echo $this->Form->control('complement', ['class' => 'input-contato', 'label' => 'Complemento', 'class' => 'form-control']); ?></div>
-                                    </div>
+                                    <div class="col-md-3 py-1"><?php echo $this->Form->control('address', ['class' => 'input-contato', 'label' => 'Endereço', 'class' => 'form-control']); ?></div><div class="col-md-3 py-1"><?php echo $this->Form->control('complement', ['class' => 'input-contato', 'label' => 'Complemento', 'class' => 'form-control']); ?></div>
                                 </fieldset>
                                 <?= $this->Form->button(__('Adicionar'), ['class' => 'btn btn-pill mx-1 my-3 px-5 btn-primary']) ?>
                                 <?= $this->Form->end() ?>

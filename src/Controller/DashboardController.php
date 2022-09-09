@@ -10,7 +10,6 @@ class DashboardController extends AppController
 {
     public function index()
     {
-
         $listUsers = TableRegistry::get('users');
         $listSale = TableRegistry::get('sales');
 
