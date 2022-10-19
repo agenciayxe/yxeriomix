@@ -85,10 +85,10 @@
                                         <tbody>
                                             <tr class="item-36896">
                                                 <td data-th="Última Devolução">
-                                                    <p><?= strftime("%d/%m/%Y", strtotime($sale->date_devolution)); ?></p>
+                                                    <p><?= date("d/m/Y", strtotime($sale->date_devolution)); ?></p>
                                                 </td>
                                                 <td data-th="Data da Compra">
-                                                    <p><?= strftime("%d/%m/%Y", strtotime($sale->date_buy)); ?></p>
+                                                    <p><?= date("d/m/Y", strtotime($sale->date_buy)); ?></p>
                                                 </td>
                                                 <td data-th="Vendas">
                                                     <p><?php echo $sale->vendas;?></p>

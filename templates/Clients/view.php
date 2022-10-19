@@ -108,7 +108,7 @@
                                         <tbody>
                                             <tr class="item-36896">
                                                 <td data-th="Última Devolução">
-                                                    <p><?= strftime("%d/%m/%Y", strtotime($saleSingle->date_devolution)); ?></p>
+                                                    <p><?= date("d/m/Y", strtotime($saleSingle->date_devolution)); ?></p>
                                                 </td>
                                                 <td data-th="Economia no Mês">
                                                     <span class="nowrap">

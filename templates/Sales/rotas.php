@@ -30,7 +30,7 @@ function copiarTexto() {
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="c-chart-wrapper my-3">
 
                         <?= $this->Form->create(null, ['url' => [ 'controller' => 'services', 'action' => 'rotas'], 'type' => 'get']) ?>
@@ -51,7 +51,7 @@ function copiarTexto() {
                                 <button class="btn btn-pill mx-1 btn-primary" onclick="copiarTexto()">Copiar texto</button>
                         </div>
                         <div class="my-3">
-                                            
+
 <?php
 if ($services) {
 ?>
@@ -59,16 +59,16 @@ if ($services) {
 <?php
 $n = 0;
 foreach ($services as $service) {
-    
-if ($n == 0 && $technicianData) { ?>___*Rota de <?php echo $technicianData->name . ' - ' . strftime("%d/%m/%Y", strtotime($service->date)); ?>*___<?php } ?>
+
+if ($n == 0 && $technicianData) { ?>___*Rota de <?php echo $technicianData->name . ' - ' . date("d/m/Y", strtotime($service->date)); ?>*___<?php } ?>
 
 
-DR.LIMPA TUDO 
+DR.LIMPA TUDO
 *OS:* <?php echo $service->os; ?>
 
-*DATA:* <?php echo strftime("%d/%m/%Y", strtotime($service->date)); ?>
+*DATA:* <?php echo date("d/m/Y", strtotime($service->date)); ?>
 
-*HORA:* <?php echo strftime("%H:%M", strtotime($service->date)); ?>
+*HORA:* <?php echo date("H:M", strtotime($service->date)); ?>
 
 *NOME:* <?php echo $service->client->nome; ?>
 
@@ -95,7 +95,7 @@ DR.LIMPA TUDO
 <?php if ($service->voltagem) {
 ?>
 *VOLTAGEM:* <?php echo $service->voltagem;
-} 
+}
 ?>
 
 *VALOR:* <?php echo number_format($service->price, 2, ',', '.') ?>
@@ -114,7 +114,7 @@ echo $service->observation;
 }
 ?>
 
-<?php 
+<?php
 $detailAddress = array(
     $service->client->address,
     $service->client->district,
@@ -123,8 +123,8 @@ $detailAddress = array(
     $service->client->cep,
 
 );
-$addressComplete = implode(',', $detailAddress); 
-echo 'http://maps.google.com/?q=' . urlencode($addressComplete); 
+$addressComplete = implode(',', $detailAddress);
+echo 'http://maps.google.com/?q=' . urlencode($addressComplete);
 ?>
 
 -------------------
@@ -143,3 +143,4 @@ echo 'http://maps.google.com/?q=' . urlencode($addressComplete);
         </div>
     </div>
 </main>
+

@@ -48,7 +48,7 @@
                                         ?>
                                         <tr>
                                             <td><?= $sale->has('client') ? $this->Html->link($sale->client->name, ['controller' => 'Clients', 'action' => 'view', $sale->client->id]) : '' ?></td>
-                                            <td><?= strftime("%d/%m", strtotime($sale->date_buy)) . ' - ' . strftime("%d/%m", strtotime($sale->date_devolution)); ?></td>
+                                            <td><?= date("d/m", strtotime($sale->date_buy)) . ' - ' . date("d/m", strtotime($sale->date_devolution)); ?></td>
                                             <td><?php echo $sale->vendas; ?></td>
                                             <td><?php echo $sale->devolucao; ?></td>
                                             <td><?php echo number_format($sale->coeficiente, 2, ',', '.'); ?> (%)</td>

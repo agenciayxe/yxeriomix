@@ -34,7 +34,7 @@
 
                         <h3>
 
-                            <?php 
+                            <?php
 
                             if ($mensagemStamp) {
 
@@ -93,7 +93,7 @@
 
                                 </div>
 
-                                <?php 
+                                <?php
 
                                 if ($mensagemPeriodo) {
 
@@ -155,11 +155,11 @@
 
                                                 <td><?= $this->Html->link($cost->title, ['controller' => 'costs', 'action' => 'view', $cost->id]) ?></td>
 
-                                                <td><?= strftime("%d/%m", strtotime($cost->date)); ?></td>
+                                                <td><?= date("d/m", strtotime($cost->date)); ?></td>
 
                                                 <td><?php echo number_format($cost->price, 2, ',', '.') ?></td>
 
-                                                <td>    
+                                                <td>
 
                                                <div class="row">
                                                     <div class="col-md-4"><?php echo $this->Form->control('statuscost_id', ['class' => 'input-contato', 'label' => false, 'options' => $statuscosts, 'class' => 'form-control save-statuscost', 'id-cost' => $cost->id, 'default' => $cost->statuscost_id]); ?></div>
@@ -223,7 +223,7 @@
 
                         </div>
 
-    
+
 
 
 

@@ -51,7 +51,7 @@
                                         ?>
                                         <tr>
                                             <td><?= $new->title; ?></td>
-                                            <td><?= strftime("%d/%m/%Y", strtotime($new->date_created)); ?></td>
+                                            <td><?= date("d/m/Y", strtotime($new->date_created)); ?></td>
                                             <td>
                                                 <?= $this->Html->link(__('Ver'), ['action' => 'view', $new->id], ['class' => 'btn btn-pill px-2 btn-sm btn-primary']) ?>
                                                 <?= $this->Html->link(__('Editar'), ['action' => 'edit', $new->id], ['class' => 'btn btn-pill px-2 btn-sm btn-primary']) ?>

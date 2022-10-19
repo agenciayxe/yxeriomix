@@ -46,7 +46,7 @@
                                 </tr>
                                 <tr>
                                     <th><?= __('Data') ?></th>
-                                    <td><?= strftime("%d/%m/%Y", strtotime($new->date_created)); ?></td>
+                                    <td><?= date("d/m/Y", strtotime($new->date_created)); ?></td>
                                 </tr>
                             </table>
                         </div>

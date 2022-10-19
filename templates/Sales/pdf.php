@@ -27,20 +27,20 @@
                     <?= $service->has('client') ? $this->Html->link($service->client->nome . ' - ' . $service->client->cpf, ['controller' => 'Clients', 'action' => 'view', $service->client->id]) : '' ?>
                 <p>
                     <i class="fas fa-map-marker-alt"></i>
-                    <?php 
+                    <?php
                     $detailAddress = array(
                         $service->client->address,
                         $service->client->reference,
                         $service->client->district,
                         $service->client->city,
                         $service->client->state,
-                        
+
                     );
                     $addressComplete = implode(',', $detailAddress); ?>
                     <a target="_blank" href="http://maps.google.com/?q=<?php echo $addressComplete; ?>"><?php echo $addressComplete; ?></a></p>
                 <p>
                     <i class="far fa-clock"></i>
-                    Data e Horário: <?= strftime("%d/%m/%Y - %H:%M", strtotime($service->date)); ?>
+                    Data e Horário: <?= date("d/m/Y - %H:%M", strtotime($service->date)); ?>
 
                 <p>
                     <?php
@@ -57,9 +57,9 @@
                     <a href="mailto:<?= h($service->client->email) ?>"><?= h($service->client->email) ?></a>
                 <p>
                 <p><i class="flag fab"></i>
-                <?php 
+                <?php
                 switch ($service->situation->id) {
-                    case 1: $color = 'warning'; break; 
+                    case 1: $color = 'warning'; break;
                     case 2: $color = 'danger'; break;
                     case 3: $color = 'success'; break;
                     case 4: $color = 'danger'; break;
@@ -72,7 +72,7 @@
                     <span class="badge badge-<?php echo $color; ?>"><?php echo $service->situation->title; ?></span></p>
 
                 <?= $this->Html->link(__('Imprimir Ordem'), ['action' => 'add'], ['class' => 'btn mt-3']) ?>
-                <a href="<?php echo $this->Url->build(['controller' => 'services', 'action' => 'rotas']); ?>?datestart=<?= strftime("%Y-%m-%d", strtotime($service->date)); ?>&technician_id=<?php echo $service->technician_id; ?>"><button class="btn mt-3">Ver na Rota ZAP</button></a>
+                <a href="<?php echo $this->Url->build(['controller' => 'services', 'action' => 'rotas']); ?>?datestart=<?= date("Y-m-d", strtotime($service->date)); ?>&technician_id=<?php echo $service->technician_id; ?>"><button class="btn mt-3">Ver na Rota ZAP</button></a>
 
             </div>
 
@@ -217,7 +217,7 @@
                             </tr>
                             <tr>
                                 <th><?= __('Data do Serviço') ?></th>
-                                <td><?= strftime("%d/%m/%Y - %H:%M", strtotime($service->date)); ?></td>
+                                <td><?= date("d/m/Y - %H:%M", strtotime($service->date)); ?></td>
                             </tr>
                             <tr>
                                 <th><?= __('Observação') ?></th>
