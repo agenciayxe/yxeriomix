@@ -9,7 +9,7 @@ class LoginController extends AppController {
 
     public function index () {
         $this->viewBuilder()->setLayout('login');
-    	if ($this->Auth->User()) {
+    	if ($this->request->getAttribute('identity')) {
             if (!$this->request->is('ajax')) { return $this->redirect($this->Auth->redirectUrl()); }
         }
 
