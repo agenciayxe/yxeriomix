@@ -28,7 +28,7 @@ class ContactsController extends AppController
     }
     public function edit($id = null)
     {
-        $listContacts = FactoryLocator::get('Table')->get('contacts');
+        $listContacts = FactoryLocator::get('Table')->get('Contacts');
 
         $contact = $this->Contacts->get($id);
         if ($this->request->is(['patch', 'post', 'put'])) {

@@ -8,10 +8,10 @@ class ReportsController extends AppController {
     public function count() {
 
         /* -------------------- TABELAS USADAS -------------------- */
-        $listClients = FactoryLocator::get('Table')->get('clients');
-        $listUsers = FactoryLocator::get('Table')->get('users');
-        $listCustomers = FactoryLocator::get('Table')->get('customers');
-        $listSale = FactoryLocator::get('Table')->get('sales');
+        $listClients = FactoryLocator::get('Table')->get('Clients');
+        $listUsers = FactoryLocator::get('Table')->get('Users');
+        $listCustomers = FactoryLocator::get('Table')->get('Customers');
+        $listSale = FactoryLocator::get('Table')->get('Sales');
 
         /* -------------------- FORMULÁRIO GET - FILTRO -------------------- */
 
@@ -83,8 +83,8 @@ class ReportsController extends AppController {
     }
     public function list() {
         /* -------------------- TABELAS USADAS -------------------- */
-        $listClients = FactoryLocator::get('Table')->get('clients');
-        $listUsers = FactoryLocator::get('Table')->get('users');
+        $listClients = FactoryLocator::get('Table')->get('Clients');
+        $listUsers = FactoryLocator::get('Table')->get('Users');
         $listSale = FactoryLocator::get('Table')->get('Sales');
 
         $clients = $this->paginate($listClients->find('all'));
@@ -116,8 +116,8 @@ class ReportsController extends AppController {
     public function graphics () {
 
         /* -------------------- TABELAS USADAS -------------------- */
-        $listClients = FactoryLocator::get('Table')->get('clients');
-        $listUsers = FactoryLocator::get('Table')->get('users');
+        $listClients = FactoryLocator::get('Table')->get('Clients');
+        $listUsers = FactoryLocator::get('Table')->get('Users');
         $listSale = FactoryLocator::get('Table')->get('Sales');
 
         $arrayGraphics = array();

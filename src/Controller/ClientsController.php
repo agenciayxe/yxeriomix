@@ -31,7 +31,7 @@ class ClientsController extends AppController {
         $client = $this->Clients->get($id, [
             'contain' => ['Statuses', 'Sales'],
         ]);
-        $listSales = FactoryLocator::get('Table')->get('sales');
+        $listSales = FactoryLocator::get('Table')->get('Sales');
         $sales = $listSales->find('all')->where(['sales.client_id' => $id])->order(['location_id' => 'ASC'])->contain(['Locations']);
         $this->set('client', $client);
         $this->set('sales', $sales);
@@ -39,8 +39,8 @@ class ClientsController extends AppController {
 
     public function add() {
 
-        $listCustomers = FactoryLocator::get('Table')->get('customers');
-        $listStatus = FactoryLocator::get('Table')->get('statuses');
+        $listCustomers = FactoryLocator::get('Table')->get('Customers');
+        $listStatus = FactoryLocator::get('Table')->get('Statuses');
 
         $allStatuses = $listStatus->find('all');
 
@@ -75,7 +75,7 @@ class ClientsController extends AppController {
 
     public function edit($id = null) {
 
-        $listStatus = FactoryLocator::get('Table')->get('statuses');
+        $listStatus = FactoryLocator::get('Table')->get('Statuses');
 
         $allStatuses = $listStatus->find('all');
 

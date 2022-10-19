@@ -10,8 +10,8 @@ class DashboardController extends AppController
 {
     public function index()
     {
-        $listUsers = FactoryLocator::get('Table')->get('users');
-        $listSale = FactoryLocator::get('Table')->get('sales');
+        $listUsers = FactoryLocator::get('Table')->get('Users');
+        $listSale = FactoryLocator::get('Table')->get('Sales');
 
         $users = $listUsers->find()->where(['status' => 1]);
         $this->set(compact('users'));

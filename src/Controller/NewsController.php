@@ -22,7 +22,7 @@ class NewsController extends AppController
     }
     public function add() {
 
-        $listNews = FactoryLocator::get('Table')->get('news');
+        $listNews = FactoryLocator::get('Table')->get('News');
 
         $new = $listNews->newEmptyEntity();
         if ($this->request->is('post')) {
@@ -46,7 +46,7 @@ class NewsController extends AppController
     }
     public function edit($id = null)
     {
-        $listNews = FactoryLocator::get('Table')->get('news');
+        $listNews = FactoryLocator::get('Table')->get('News');
 
         $new = $this->News->get($id);
         if ($this->request->is(['patch', 'post', 'put'])) {

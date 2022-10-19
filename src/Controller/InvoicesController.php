@@ -13,7 +13,7 @@ class InvoicesController extends AppController
     // or override the global ones:
     public function view($id = null)
     {
-        $listSales = FactoryLocator::get('Table')->get('sales');
+        $listSales = FactoryLocator::get('Table')->get('Sales');
         $invoice = $listSales->get($id);
         $this->viewBuilder()->setClassName('CakePdf.Pdf');
         $this->viewBuilder()->setOption(

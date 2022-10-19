@@ -70,7 +70,7 @@ class ApiController extends AppController
     }
     public function resume() {
 
-        $listSale = FactoryLocator::get('Table')->get('sales');
+        $listSale = FactoryLocator::get('Table')->get('Sales');
 
         $response = array(
             'devolucoes' => 0,
@@ -112,8 +112,8 @@ class ApiController extends AppController
         $this->set(compact('response'));
     }
     public function register() {
-        $listCustomers = FactoryLocator::get('Table')->get('customers');
-        $listTokens = FactoryLocator::get('Table')->get('tokens');
+        $listCustomers = FactoryLocator::get('Table')->get('Customers');
+        $listTokens = FactoryLocator::get('Table')->get('Tokens');
         $response = array(
             'status' => false,
             'message' => 'Verifique todos os campos para continuar.',
@@ -164,8 +164,8 @@ class ApiController extends AppController
             'message' => 'O código informado não é válido',
         );
 
-        $listCustomers = FactoryLocator::get('Table')->get('customers');
-        $listTokens = FactoryLocator::get('Table')->get('tokens');
+        $listCustomers = FactoryLocator::get('Table')->get('Customers');
+        $listTokens = FactoryLocator::get('Table')->get('Tokens');
 
         if ($this->request->getQuery('code') && $this->request->getQuery('username')) {
             $customerEmail = $this->request->getQuery('username');
@@ -202,8 +202,8 @@ class ApiController extends AppController
             'message' => 'Houve um erro ao tentar recuperar a sua senha. Se o problema persistir entre em contato!',
         );
 
-        $listCustomers = FactoryLocator::get('Table')->get('customers');
-        $listTokens = FactoryLocator::get('Table')->get('tokens');
+        $listCustomers = FactoryLocator::get('Table')->get('Customers');
+        $listTokens = FactoryLocator::get('Table')->get('Tokens');
 
         if ($this->request->getQuery('email')) {
             $customerEmail = $this->request->getQuery('email');
@@ -244,8 +244,8 @@ class ApiController extends AppController
             'message' => 'O código informado não é válido',
         );
 
-        $listCustomers = FactoryLocator::get('Table')->get('customers');
-        $listTokens = FactoryLocator::get('Table')->get('tokens');
+        $listCustomers = FactoryLocator::get('Table')->get('Customers');
+        $listTokens = FactoryLocator::get('Table')->get('Tokens');
 
         if ($this->request->getQuery('code') && $this->request->getQuery('email')) {
             $customerEmail = $this->request->getQuery('email');
@@ -280,7 +280,7 @@ class ApiController extends AppController
             'message' => 'A senha não foi atualizada, verifique a senha e tente novamente.',
         );
 
-        $listCustomers = FactoryLocator::get('Table')->get('customers');
+        $listCustomers = FactoryLocator::get('Table')->get('Customers');
         if ($this->request->getQuery('email') && $this->request->getQuery('password')) {
             $customerEmail = $this->request->getQuery('email');
             $password = $this->request->getQuery('password');
@@ -313,7 +313,7 @@ class ApiController extends AppController
             'message' => 'Houve um erro ao enviar a mensagem',
         );
 
-        $listContacts = FactoryLocator::get('Table')->get('contacts');
+        $listContacts = FactoryLocator::get('Table')->get('Contacts');
         $contacts = $listContacts->newEmptyEntity();
 
         if ($this->request->is('get')) {
@@ -373,7 +373,7 @@ class ApiController extends AppController
     }
     public function reciclergeral() {
 
-        $listSale = FactoryLocator::get('Table')->get('sales');
+        $listSale = FactoryLocator::get('Table')->get('Sales');
 
         $response = array(
             'devolucoes' => 0,
@@ -417,7 +417,7 @@ class ApiController extends AppController
     }
     public function reciclergrafico() {
 
-        $listSale = FactoryLocator::get('Table')->get('sales');
+        $listSale = FactoryLocator::get('Table')->get('Sales');
 
         $response = array();
 
@@ -504,9 +504,9 @@ class ApiController extends AppController
     }
     public function reciclermensal() {
         // Tabelas
-        $listSale = FactoryLocator::get('Table')->get('sales');
-        $listClient = FactoryLocator::get('Table')->get('clients');
-        $listLocations = FactoryLocator::get('Table')->get('locations');
+        $listSale = FactoryLocator::get('Table')->get('Sales');
+        $listClient = FactoryLocator::get('Table')->get('Clients');
+        $listLocations = FactoryLocator::get('Table')->get('Locations');
         $response = array();
         // Verificar Cliente
         if ($this->request->getQuery('client_id')) {
@@ -601,10 +601,10 @@ class ApiController extends AppController
     public function gerarpdf() {
 
         // Tabelas
-        $listSale = FactoryLocator::get('Table')->get('sales');
-        $listClient = FactoryLocator::get('Table')->get('clients');
-        $listCertificates = FactoryLocator::get('Table')->get('certificates');
-        $listLocations = FactoryLocator::get('Table')->get('locations');
+        $listSale = FactoryLocator::get('Table')->get('Sales');
+        $listClient = FactoryLocator::get('Table')->get('Clients');
+        $listCertificates = FactoryLocator::get('Table')->get('Certificates');
+        $listLocations = FactoryLocator::get('Table')->get('Locations');
         $response = array();
 
         // Verificar Data

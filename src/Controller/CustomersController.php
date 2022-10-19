@@ -16,7 +16,7 @@ class CustomersController extends AppController {
     }
 
     public function view($id = null) {
-        $clientsTable = FactoryLocator::get('Table')->get('clients');
+        $clientsTable = FactoryLocator::get('Table')->get('Clients');
         $customer = $this->Customers->get($id, [
 
         ]);
@@ -31,7 +31,7 @@ class CustomersController extends AppController {
     }
 
     public function add() {
-        $listRoles = FactoryLocator::get('Table')->get('roles');
+        $listRoles = FactoryLocator::get('Table')->get('Roles');
         $allRoles = $listRoles->find('all');
 
         foreach ($allRoles as $roleSingle) {
@@ -64,7 +64,7 @@ class CustomersController extends AppController {
     }
 
     public function edit($id = null) {
-        $listRoles = FactoryLocator::get('Table')->get('roles');
+        $listRoles = FactoryLocator::get('Table')->get('Roles');
         $allRoles = $listRoles->find('all');
 
         foreach ($allRoles as $roleSingle) {

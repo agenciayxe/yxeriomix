@@ -8,7 +8,7 @@ class ProfileController extends AppController {
     public function index() {
         $userCurrent = $this->usuarioAtual;
         $id = $userCurrent['id'];
-        $listUsers = FactoryLocator::get('Table')->get('users');
+        $listUsers = FactoryLocator::get('Table')->get('Users');
 
         $user = $listUsers->get($id, [
             'contain' => [],
@@ -29,7 +29,7 @@ class ProfileController extends AppController {
     public function settings() {
         $userCurrent = $this->usuarioAtual;
         $id = $userCurrent['id'];
-        $listUsers = FactoryLocator::get('Table')->get('users');
+        $listUsers = FactoryLocator::get('Table')->get('Users');
 
         $user = $listUsers->get($id);
 

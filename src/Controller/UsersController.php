@@ -21,7 +21,7 @@ class UsersController extends AppController {
     }
 
     public function add() {
-        $listRoles = FactoryLocator::get('Table')->get('roles');
+        $listRoles = FactoryLocator::get('Table')->get('Roles');
         $allRoles = $listRoles->find('all');
 
         foreach ($allRoles as $roleSingle) {
@@ -51,7 +51,7 @@ class UsersController extends AppController {
     }
 
     public function edit($id = null) {
-        $listRoles = FactoryLocator::get('Table')->get('roles');
+        $listRoles = FactoryLocator::get('Table')->get('Roles');
         $allRoles = $listRoles->find('all');
 
         foreach ($allRoles as $roleSingle) {
