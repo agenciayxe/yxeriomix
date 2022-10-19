@@ -32,7 +32,7 @@ class ClientsController extends AppController {
             'contain' => ['Statuses', 'Sales'],
         ]);
         $listSales = FactoryLocator::get('Table')->get('Sales');
-        $sales = $listSales->find('all')->where(['sales.client_id' => $id])->order(['location_id' => 'ASC'])->contain(['Locations']);
+        $sales = $listSales->find('all')->where(['Sales.client_id' => $id])->order(['location_id' => 'ASC'])->contain(['Locations']);
         $this->set('client', $client);
         $this->set('sales', $sales);
     }
