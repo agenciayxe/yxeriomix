@@ -7,34 +7,28 @@ use Cake\Auth\DefaultPasswordHasher;
 
 class LoginController extends AppController {
 
-    public function index () {
-        $this->viewBuilder()->setLayout('login');
-    	if ($this->request->getAttribute('identity')) {
-            if (!$this->request->is('ajax')) { return $this->redirect($this->Auth->redirectUrl()); }
-        }
+    public function beforeFilter(\Cake\Event\EventInterface $event)
+    {
+        $this->loadComponent('Authentication.Authentication');
+        parent::beforeFilter($event);
 
-        $returnEntrar = 'Seu nome de usuário ou senha está incorreto.';
-        if ($this->request->is('ajax')) {
-            $user = $this->Auth->identify();
-            if ($user) {
-                $this->Auth->setUser($user);
-                $returnEntrar = true;
-            }
-            else {  }
-            $this->viewBuilder()->setLayout('ajax');
-            $this->set(compact('returnEntrar'));
+        $this->Authentication->allowUnauthenticated(['index']);
+    }
+    public function index () {
+
+        $this->viewBuilder()->setLayout('login');
+        $result = $this->Authentication->getResult();
+        if ($result->isValid()) {
+            $target = $this->Authentication->getLoginRedirect() ?? '/dashboard';
+            return $this->redirect($target);
         }
-        else if ($this->request->is('post')) {
-            $user = $this->Auth->identify();
-            if ($user) {
-                $this->Auth->setUser($user);
-                return $this->redirect($this->Auth->redirectUrl());
-            }
-            else { $this->Flash->error($returnEntrar); }
+        if ($this->request->is('post')) {
+            $this->Flash->error('Usuário ou senha incorreto, tente novamente.');
         }
     }
     public function sair() {
-	    return $this->redirect($this->Auth->logout());
+	    $this->Authentication->logout();
+        return $this->redirect(['controller' => 'login', 'action' => 'index']);
 	}
 }
 ?>

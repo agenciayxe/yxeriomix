@@ -12,42 +12,19 @@ class AppController extends Controller
     public function initialize(): void
     {
         parent::initialize();
-    	if ($this->request->getParam('controller') != 'Api') {
-            $this->loadComponent('Auth', [
-                'loginAction' => [
-                    'controller' => 'login',
-                    'action' => 'index'
-                ],
-                'authenticate' => [
-                    'Form' => [
-                        'fields' => [
-                            'username' => 'username',
-                            'password' => 'password'
-                        ],
-                        'userModel' => 'users'
-                    ]
-                ],
-                'loginRedirect' => [
-                    'controller' => 'dashboard',
-                    'action' => 'index'
-                ],
-                'logoutRedirect' => [
-                    'controller' => 'login',
-                    'action' => 'index'
-                ],
-                'authError' => 'Login não efetuado, tente entrar em sua conta.',
-            ]);
 
-            $this->Auth->allow(['sair']);
-            $this->loadComponent('Flash');
+    	$this->loadComponent('Authentication.Authentication');
 
-            $usuarioAtual = $this->Auth->User();;
-            $this->usuarioAtual = $usuarioAtual;
-            $this->set(compact('usuarioAtual'));
+        $this->loadComponent('Flash');
 
-            $this->viewBuilder()->setLayout('default');
-
-            $this->loadComponent('RequestHandler');
+        $usuarioAtual = $this->Authentication->getIdentity();
+        $this->usuarioAtual = $usuarioAtual;
+        if ($usuarioAtual && $usuarioAtual->status == 0) {
+            $this->Authentication->logout();
+            $this->Flash->error('Você não pode acessar o sistema.');
+            $this->redirect(['controller' => 'login', 'action' => 'index']);
         }
+        $this->set(compact('usuarioAtual'));
     }
 }
+
