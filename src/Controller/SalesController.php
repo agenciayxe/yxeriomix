@@ -4,12 +4,12 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\Auth\DefaultPasswordHasher;
-use Cake\ORM\TableRegistry;
+use Cake\Datasource\FactoryLocator;
 
 class SalesController extends AppController
 {
     public function index() {
-        $listTech = TableRegistry::get('users');
+        $listTech = FactoryLocator::get('Table')->get('users');
         $technicians = $listTech->find('all')->where(['role_id' => 2, 'status' => 1]);
 
         $this->set(compact('technicians'));
@@ -30,7 +30,7 @@ class SalesController extends AppController
         $sale = $this->Sales->get($id, [
             'contain' => ['Clients']
         ]);
-        $listLocations = TableRegistry::get('locations');
+        $listLocations = FactoryLocator::get('Table')->get('locations');
         $location = $listLocations->find('all')->where(['id' => $sale->location_id])->first();
 
         $this->set('sale', $sale);
@@ -41,10 +41,10 @@ class SalesController extends AppController
     }
     public function addcomplete() {
 
-        $listClients = TableRegistry::get('clients');
-        $listCustomers = TableRegistry::get('customers');
-        $listTechnicians = TableRegistry::get('locations');
-        $listLocations = TableRegistry::get('locations');
+        $listClients = FactoryLocator::get('Table')->get('clients');
+        $listCustomers = FactoryLocator::get('Table')->get('customers');
+        $listTechnicians = FactoryLocator::get('Table')->get('locations');
+        $listLocations = FactoryLocator::get('Table')->get('locations');
 
         $client = $listClients->newEmptyEntity();
         $sale = $this->Sales->newEmptyEntity();
@@ -99,11 +99,11 @@ class SalesController extends AppController
 
     public function addsale() {
 
-        $listClients = TableRegistry::get('clients');
-        $listTechnicians = TableRegistry::get('users');
-        $listLocations = TableRegistry::get('locations');
+        $listClients = FactoryLocator::get('Table')->get('clients');
+        $listTechnicians = FactoryLocator::get('Table')->get('users');
+        $listLocations = FactoryLocator::get('Table')->get('locations');
 
-        $listStatus = TableRegistry::get('statuses');
+        $listStatus = FactoryLocator::get('Table')->get('statuses');
         $allStatuses = $listStatus->find('all');
         foreach ($allStatuses as $statusSingle) {
             $idStatus = $statusSingle->id;
@@ -154,8 +154,8 @@ class SalesController extends AppController
     {
 
 
-        $listClients = TableRegistry::get('clients');
-        $listTechnicians = TableRegistry::get('users');
+        $listClients = FactoryLocator::get('Table')->get('clients');
+        $listTechnicians = FactoryLocator::get('Table')->get('users');
         $allTechnicians = $listTechnicians->find('all')->where(['role_id' => 2, 'status' => 1]);
         $technicians[0] = 'Sem Técnico';
         foreach ($allTechnicians as $technicianSingle) {
@@ -165,7 +165,7 @@ class SalesController extends AppController
         $this->set(compact('technicians'));
 
 
-        $listStatus = TableRegistry::get('statuses');
+        $listStatus = FactoryLocator::get('Table')->get('statuses');
         $allStatuses = $listStatus->find('all');
         foreach ($allStatuses as $statusSingle) {
             $idStatus = $statusSingle->id;

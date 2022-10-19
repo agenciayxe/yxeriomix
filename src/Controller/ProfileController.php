@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 namespace App\Controller;
-use Cake\ORM\TableRegistry;
+use Cake\Datasource\FactoryLocator;
 
 class ProfileController extends AppController {
 
     public function index() {
         $userCurrent = $this->usuarioAtual;
         $id = $userCurrent['id'];
-        $listUsers = TableRegistry::get('users');
+        $listUsers = FactoryLocator::get('Table')->get('users');
 
         $user = $listUsers->get($id, [
             'contain' => [],
@@ -29,7 +29,7 @@ class ProfileController extends AppController {
     public function settings() {
         $userCurrent = $this->usuarioAtual;
         $id = $userCurrent['id'];
-        $listUsers = TableRegistry::get('users');
+        $listUsers = FactoryLocator::get('Table')->get('users');
 
         $user = $listUsers->get($id);
 

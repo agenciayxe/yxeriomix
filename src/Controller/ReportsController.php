@@ -1,17 +1,17 @@
 <?php
 declare(strict_types=1);
 namespace App\Controller;
-use Cake\ORM\TableRegistry;
+use Cake\Datasource\FactoryLocator;
 class ReportsController extends AppController {
     public function index() {
     }
     public function count() {
 
         /* -------------------- TABELAS USADAS -------------------- */
-        $listClients = TableRegistry::get('clients');
-        $listUsers = TableRegistry::get('users');
-        $listCustomers = TableRegistry::get('customers');
-        $listSale = TableRegistry::get('sales');
+        $listClients = FactoryLocator::get('Table')->get('clients');
+        $listUsers = FactoryLocator::get('Table')->get('users');
+        $listCustomers = FactoryLocator::get('Table')->get('customers');
+        $listSale = FactoryLocator::get('Table')->get('sales');
 
         /* -------------------- FORMULÁRIO GET - FILTRO -------------------- */
 
@@ -83,9 +83,9 @@ class ReportsController extends AppController {
     }
     public function list() {
         /* -------------------- TABELAS USADAS -------------------- */
-        $listClients = TableRegistry::get('clients');
-        $listUsers = TableRegistry::get('users');
-        $listSale = TableRegistry::get('Sales');
+        $listClients = FactoryLocator::get('Table')->get('clients');
+        $listUsers = FactoryLocator::get('Table')->get('users');
+        $listSale = FactoryLocator::get('Table')->get('Sales');
 
         $clients = $this->paginate($listClients->find('all'));
         $sales = array();
@@ -116,9 +116,9 @@ class ReportsController extends AppController {
     public function graphics () {
 
         /* -------------------- TABELAS USADAS -------------------- */
-        $listClients = TableRegistry::get('clients');
-        $listUsers = TableRegistry::get('users');
-        $listSale = TableRegistry::get('Sales');
+        $listClients = FactoryLocator::get('Table')->get('clients');
+        $listUsers = FactoryLocator::get('Table')->get('users');
+        $listSale = FactoryLocator::get('Table')->get('Sales');
 
         $arrayGraphics = array();
         for ($i = 7; $i >= -1; $i--) {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use Cake\ORM\TableRegistry;
+use Cake\Datasource\FactoryLocator;
 
 class GetController extends AppController
 {
@@ -23,7 +23,7 @@ class GetController extends AppController
         $start = $this->request->getQuery('start');
         $end = $this->request->getQuery('end');
         $listSales = array();
-        $salesTable = TableRegistry::get('Sales');
+        $salesTable = FactoryLocator::get('Table')->get('Sales');
         $sales = $salesTable->find('all')->contain(['Clients'])->where(['date_devolution >= ' => $start])->andWhere(['date_devolution <= ' => $end]);
         $this->set(compact('sales'));
         $this->viewBuilder()->setLayout('ajax');
@@ -35,7 +35,7 @@ class GetController extends AppController
             'status' => false
         ];
         $id = $this->request->getData('id');
-        $salesTable = TableRegistry::get('Sales');
+        $salesTable = FactoryLocator::get('Table')->get('Sales');
         $sale = $salesTable->get($id);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $date = $this->request->getData('date');
@@ -60,7 +60,7 @@ class GetController extends AppController
         $start = $this->request->getQuery('start');
         $end = $this->request->getQuery('end');
         $listLeads = array();
-        $leadsTable = TableRegistry::get('Leads');
+        $leadsTable = FactoryLocator::get('Table')->get('Leads');
         $leads = $leadsTable->find('all')->where(['date >= ' => $start])->andWhere(['date <= ' => $end]);
         $this->set(compact('leads'));
         $this->viewBuilder()->setLayout('ajax');
@@ -72,7 +72,7 @@ class GetController extends AppController
             'status' => false
         ];
         $id = $this->request->getData('id');
-        $leadsTable = TableRegistry::get('Leads');
+        $leadsTable = FactoryLocator::get('Table')->get('Leads');
         $lead = $leadsTable->get($id);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $date = $this->request->getData('date');
@@ -95,7 +95,7 @@ class GetController extends AppController
     public function searchclient()
     {
         $pesquisa = $this->request->getQuery('term');
-        $clientsTable = TableRegistry::get('Clients');
+        $clientsTable = FactoryLocator::get('Table')->get('Clients');
         $clients = $this->paginate($clientsTable->find('all', [
             'conditions' => [
                 'OR' => [
@@ -115,7 +115,7 @@ class GetController extends AppController
         $pesquisa = $this->request->getQuery('term');
         $clientId = $this->request->getQuery('clientId');
         if ($clientId) {
-            $locationsTable = TableRegistry::get('Locations');
+            $locationsTable = FactoryLocator::get('Table')->get('Locations');
             $locations = $this->paginate($locationsTable->find('all', [
                 'conditions' => [
                     'AND' => [
@@ -134,7 +134,7 @@ class GetController extends AppController
             'status' => false
         ];
         $id = $this->request->getData('id');
-        $salesTable = TableRegistry::get('Sales');
+        $salesTable = FactoryLocator::get('Table')->get('Sales');
         $sale = $salesTable->get($id);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $value = $this->request->getData('value');
@@ -163,7 +163,7 @@ class GetController extends AppController
             'status' => false
         ];
         $id = $this->request->getData('id');
-        $costsTable = TableRegistry::get('Costs');
+        $costsTable = FactoryLocator::get('Table')->get('Costs');
         $cost = $costsTable->get($id);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $value = $this->request->getData('value');
@@ -190,7 +190,7 @@ class GetController extends AppController
         $start = $this->request->getQuery('start');
         $end = $this->request->getQuery('end');
         $listCosts = array();
-        $CostsTable = TableRegistry::get('Costs');
+        $CostsTable = FactoryLocator::get('Table')->get('Costs');
         $costs = $CostsTable->find('all')->where(['date >= ' => $start])->andWhere(['date <= ' => $end]);
         $this->set(compact('costs'));
         $this->viewBuilder()->setLayout('ajax');
@@ -202,7 +202,7 @@ class GetController extends AppController
             'status' => false
         ];
         $id = $this->request->getData('id');
-        $costsTable = TableRegistry::get('Costs');
+        $costsTable = FactoryLocator::get('Table')->get('Costs');
         $cost = $costsTable->get($id);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $date = $this->request->getData('date');
@@ -230,7 +230,7 @@ class GetController extends AppController
             'status' => false
         ];
         $id = $this->request->getData('id');
-        $receiptsTable = TableRegistry::get('Receipts');
+        $receiptsTable = FactoryLocator::get('Table')->get('Receipts');
         $receipt = $receiptsTable->get($id);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $value = $this->request->getData('value');
@@ -257,7 +257,7 @@ class GetController extends AppController
         $start = $this->request->getQuery('start');
         $end = $this->request->getQuery('end');
         $listReceipts = array();
-        $ReceiptsTable = TableRegistry::get('Receipts');
+        $ReceiptsTable = FactoryLocator::get('Table')->get('Receipts');
         $receipts = $ReceiptsTable->find('all')->where(['date >= ' => $start])->andWhere(['date <= ' => $end]);
         $this->set(compact('receipts'));
         $this->viewBuilder()->setLayout('ajax');
@@ -269,7 +269,7 @@ class GetController extends AppController
             'status' => false
         ];
         $id = $this->request->getData('id');
-        $receiptsTable = TableRegistry::get('Receipts');
+        $receiptsTable = FactoryLocator::get('Table')->get('Receipts');
         $receipt = $receiptsTable->get($id);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $date = $this->request->getData('date');

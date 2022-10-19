@@ -6,7 +6,7 @@ namespace App\Controller;
 
 use Cake\Auth\DefaultPasswordHasher;
 use Cake\Controller\Controller;
-use Cake\ORM\TableRegistry;
+use Cake\Datasource\FactoryLocator;
 use Cake\Utility\Text;
 use Cake\Mailer\Mailer;
 
@@ -70,7 +70,7 @@ class ApiController extends AppController
     }
     public function resume() {
 
-        $listSale = TableRegistry::get('sales');
+        $listSale = FactoryLocator::get('Table')->get('sales');
 
         $response = array(
             'devolucoes' => 0,
@@ -112,8 +112,8 @@ class ApiController extends AppController
         $this->set(compact('response'));
     }
     public function register() {
-        $listCustomers = TableRegistry::get('customers');
-        $listTokens = TableRegistry::get('tokens');
+        $listCustomers = FactoryLocator::get('Table')->get('customers');
+        $listTokens = FactoryLocator::get('Table')->get('tokens');
         $response = array(
             'status' => false,
             'message' => 'Verifique todos os campos para continuar.',
@@ -164,8 +164,8 @@ class ApiController extends AppController
             'message' => 'O código informado não é válido',
         );
 
-        $listCustomers = TableRegistry::get('customers');
-        $listTokens = TableRegistry::get('tokens');
+        $listCustomers = FactoryLocator::get('Table')->get('customers');
+        $listTokens = FactoryLocator::get('Table')->get('tokens');
 
         if ($this->request->getQuery('code') && $this->request->getQuery('username')) {
             $customerEmail = $this->request->getQuery('username');
@@ -202,8 +202,8 @@ class ApiController extends AppController
             'message' => 'Houve um erro ao tentar recuperar a sua senha. Se o problema persistir entre em contato!',
         );
 
-        $listCustomers = TableRegistry::get('customers');
-        $listTokens = TableRegistry::get('tokens');
+        $listCustomers = FactoryLocator::get('Table')->get('customers');
+        $listTokens = FactoryLocator::get('Table')->get('tokens');
 
         if ($this->request->getQuery('email')) {
             $customerEmail = $this->request->getQuery('email');
@@ -244,8 +244,8 @@ class ApiController extends AppController
             'message' => 'O código informado não é válido',
         );
 
-        $listCustomers = TableRegistry::get('customers');
-        $listTokens = TableRegistry::get('tokens');
+        $listCustomers = FactoryLocator::get('Table')->get('customers');
+        $listTokens = FactoryLocator::get('Table')->get('tokens');
 
         if ($this->request->getQuery('code') && $this->request->getQuery('email')) {
             $customerEmail = $this->request->getQuery('email');
@@ -280,7 +280,7 @@ class ApiController extends AppController
             'message' => 'A senha não foi atualizada, verifique a senha e tente novamente.',
         );
 
-        $listCustomers = TableRegistry::get('customers');
+        $listCustomers = FactoryLocator::get('Table')->get('customers');
         if ($this->request->getQuery('email') && $this->request->getQuery('password')) {
             $customerEmail = $this->request->getQuery('email');
             $password = $this->request->getQuery('password');
@@ -313,7 +313,7 @@ class ApiController extends AppController
             'message' => 'Houve um erro ao enviar a mensagem',
         );
 
-        $listContacts = TableRegistry::get('contacts');
+        $listContacts = FactoryLocator::get('Table')->get('contacts');
         $contacts = $listContacts->newEmptyEntity();
 
         if ($this->request->is('get')) {
@@ -339,7 +339,7 @@ class ApiController extends AppController
             'message' => 'Houve um erro ao enviar a mensagem',
         );
 
-        $newsTable = TableRegistry::get('News');
+        $newsTable = FactoryLocator::get('Table')->get('News');
         $pesquisa = ($this->request->getQuery('s')) ? $this->request->getQuery('s'): '';
         $news = $this->paginate($newsTable->find('all'));
         $newsArray = array();
@@ -358,7 +358,7 @@ class ApiController extends AppController
             'message' => 'Houve um erro ao enviar a mensagem',
         );
 
-        $newsTable = TableRegistry::get('News');
+        $newsTable = FactoryLocator::get('Table')->get('News');
         $pesquisa = ($this->request->getQuery('s')) ? $this->request->getQuery('s'): '';
         $news = $this->paginate($newsTable->find('all'));
         $newsArray = array();
@@ -373,7 +373,7 @@ class ApiController extends AppController
     }
     public function reciclergeral() {
 
-        $listSale = TableRegistry::get('sales');
+        $listSale = FactoryLocator::get('Table')->get('sales');
 
         $response = array(
             'devolucoes' => 0,
@@ -417,7 +417,7 @@ class ApiController extends AppController
     }
     public function reciclergrafico() {
 
-        $listSale = TableRegistry::get('sales');
+        $listSale = FactoryLocator::get('Table')->get('sales');
 
         $response = array();
 
@@ -504,9 +504,9 @@ class ApiController extends AppController
     }
     public function reciclermensal() {
         // Tabelas
-        $listSale = TableRegistry::get('sales');
-        $listClient = TableRegistry::get('clients');
-        $listLocations = TableRegistry::get('locations');
+        $listSale = FactoryLocator::get('Table')->get('sales');
+        $listClient = FactoryLocator::get('Table')->get('clients');
+        $listLocations = FactoryLocator::get('Table')->get('locations');
         $response = array();
         // Verificar Cliente
         if ($this->request->getQuery('client_id')) {
@@ -601,10 +601,10 @@ class ApiController extends AppController
     public function gerarpdf() {
 
         // Tabelas
-        $listSale = TableRegistry::get('sales');
-        $listClient = TableRegistry::get('clients');
-        $listCertificates = TableRegistry::get('certificates');
-        $listLocations = TableRegistry::get('locations');
+        $listSale = FactoryLocator::get('Table')->get('sales');
+        $listClient = FactoryLocator::get('Table')->get('clients');
+        $listCertificates = FactoryLocator::get('Table')->get('certificates');
+        $listLocations = FactoryLocator::get('Table')->get('locations');
         $response = array();
 
         // Verificar Data

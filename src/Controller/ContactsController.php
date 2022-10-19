@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 namespace App\Controller;
-use Cake\ORM\TableRegistry;
+use Cake\Datasource\FactoryLocator;
 
 class ContactsController extends AppController
 {
@@ -28,7 +28,7 @@ class ContactsController extends AppController
     }
     public function edit($id = null)
     {
-        $listContacts = TableRegistry::get('contacts');
+        $listContacts = FactoryLocator::get('Table')->get('contacts');
 
         $contact = $this->Contacts->get($id);
         if ($this->request->is(['patch', 'post', 'put'])) {

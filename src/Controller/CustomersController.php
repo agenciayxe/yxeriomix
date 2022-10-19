@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\Auth\DefaultPasswordHasher;
-use Cake\ORM\TableRegistry;
+use Cake\Datasource\FactoryLocator;
 
 class CustomersController extends AppController {
     public $paginate = [
@@ -16,7 +16,7 @@ class CustomersController extends AppController {
     }
 
     public function view($id = null) {
-        $clientsTable = TableRegistry::get('clients');
+        $clientsTable = FactoryLocator::get('Table')->get('clients');
         $customer = $this->Customers->get($id, [
 
         ]);
@@ -31,7 +31,7 @@ class CustomersController extends AppController {
     }
 
     public function add() {
-        $listRoles = TableRegistry::get('roles');
+        $listRoles = FactoryLocator::get('Table')->get('roles');
         $allRoles = $listRoles->find('all');
 
         foreach ($allRoles as $roleSingle) {
@@ -64,7 +64,7 @@ class CustomersController extends AppController {
     }
 
     public function edit($id = null) {
-        $listRoles = TableRegistry::get('roles');
+        $listRoles = FactoryLocator::get('Table')->get('roles');
         $allRoles = $listRoles->find('all');
 
         foreach ($allRoles as $roleSingle) {

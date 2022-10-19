@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 namespace App\Controller;
-use Cake\ORM\TableRegistry;
+use Cake\Datasource\FactoryLocator;
 
 class UsersController extends AppController {
     public $paginate = [
@@ -21,7 +21,7 @@ class UsersController extends AppController {
     }
 
     public function add() {
-        $listRoles = TableRegistry::get('roles');
+        $listRoles = FactoryLocator::get('Table')->get('roles');
         $allRoles = $listRoles->find('all');
 
         foreach ($allRoles as $roleSingle) {
@@ -51,7 +51,7 @@ class UsersController extends AppController {
     }
 
     public function edit($id = null) {
-        $listRoles = TableRegistry::get('roles');
+        $listRoles = FactoryLocator::get('Table')->get('roles');
         $allRoles = $listRoles->find('all');
 
         foreach ($allRoles as $roleSingle) {

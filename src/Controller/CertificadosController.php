@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use Cake\ORM\TableRegistry;
+use Cake\Datasource\FactoryLocator;
 use App\Utility\PdfWriter;
 
 class CertificadosController extends AppController {

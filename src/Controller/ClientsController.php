@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use Cake\ORM\TableRegistry;
+use Cake\Datasource\FactoryLocator;
 
 class ClientsController extends AppController {
 
@@ -31,7 +31,7 @@ class ClientsController extends AppController {
         $client = $this->Clients->get($id, [
             'contain' => ['Statuses', 'Sales'],
         ]);
-        $listSales = TableRegistry::get('sales');
+        $listSales = FactoryLocator::get('Table')->get('sales');
         $sales = $listSales->find('all')->where(['sales.client_id' => $id])->order(['location_id' => 'ASC'])->contain(['Locations']);
         $this->set('client', $client);
         $this->set('sales', $sales);
@@ -39,8 +39,8 @@ class ClientsController extends AppController {
 
     public function add() {
 
-        $listCustomers = TableRegistry::get('customers');
-        $listStatus = TableRegistry::get('statuses');
+        $listCustomers = FactoryLocator::get('Table')->get('customers');
+        $listStatus = FactoryLocator::get('Table')->get('statuses');
 
         $allStatuses = $listStatus->find('all');
 
@@ -75,7 +75,7 @@ class ClientsController extends AppController {
 
     public function edit($id = null) {
 
-        $listStatus = TableRegistry::get('statuses');
+        $listStatus = FactoryLocator::get('Table')->get('statuses');
 
         $allStatuses = $listStatus->find('all');
 

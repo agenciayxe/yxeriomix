@@ -2,7 +2,7 @@
 namespace App\Controller;
 
 use Cake\Controller\Controller;
-use Cake\ORM\TableRegistry;
+use Cake\Datasource\FactoryLocator;
 use Cake\Auth\DefaultPasswordHasher;
 
 class LoginController extends AppController {

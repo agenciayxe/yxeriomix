@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\Auth\DefaultPasswordHasher;
-use Cake\ORM\TableRegistry;
+use Cake\Datasource\FactoryLocator;
 use \CakePdf\Pdf\CakePdf;
 
 class InvoicesController extends AppController
@@ -13,7 +13,7 @@ class InvoicesController extends AppController
     // or override the global ones:
     public function view($id = null)
     {
-        $listSales = TableRegistry::get('sales');
+        $listSales = FactoryLocator::get('Table')->get('sales');
         $invoice = $listSales->get($id);
         $this->viewBuilder()->setClassName('CakePdf.Pdf');
         $this->viewBuilder()->setOption(

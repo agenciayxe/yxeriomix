@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use Cake\ORM\TableRegistry;
+use Cake\Datasource\FactoryLocator;
 
 class ImportController extends AppController
 {
     public function index()
     {
-        $sales = TableRegistry::get('Sales');
-        $clients = TableRegistry::get('Clients');
-        $locations = TableRegistry::get('Locations');
+        $sales = FactoryLocator::get('Table')->get('Sales');
+        $clients = FactoryLocator::get('Table')->get('Clients');
+        $locations = FactoryLocator::get('Table')->get('Locations');
         $this->viewBuilder()->setLayout('ajax');
         $url = '../webroot/dados-site.xml';
 

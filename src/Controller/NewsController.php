@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 namespace App\Controller;
-use Cake\ORM\TableRegistry;
+use Cake\Datasource\FactoryLocator;
 
 class NewsController extends AppController
 {
@@ -22,7 +22,7 @@ class NewsController extends AppController
     }
     public function add() {
 
-        $listNews = TableRegistry::get('news');
+        $listNews = FactoryLocator::get('Table')->get('news');
 
         $new = $listNews->newEmptyEntity();
         if ($this->request->is('post')) {
@@ -46,7 +46,7 @@ class NewsController extends AppController
     }
     public function edit($id = null)
     {
-        $listNews = TableRegistry::get('news');
+        $listNews = FactoryLocator::get('Table')->get('news');
 
         $new = $this->News->get($id);
         if ($this->request->is(['patch', 'post', 'put'])) {

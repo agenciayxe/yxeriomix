@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\Auth\DefaultPasswordHasher;
-use Cake\ORM\TableRegistry;
+use Cake\Datasource\FactoryLocator;
 
 class CertificatesController extends AppController {
     public function index() {
