@@ -1,7 +1,6 @@
 <main class="c-main">
     <div class="container-fluid">
         <div class="fade-in">
-            <!-- /.row-->
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
@@ -14,9 +13,7 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="c-chart-wrapper my-3">
-
                         <div class="my-3">
                             <?= $this->Form->create($client) ?>
                             <fieldset>
