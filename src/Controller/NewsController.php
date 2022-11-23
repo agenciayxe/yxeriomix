@@ -28,7 +28,7 @@ class NewsController extends AppController
         if ($this->request->is('post')) {
             $getData = $this->request->getData();
             $new = $listNews->patchEntity($new, $this->request->getData());
-            $dateSave = date('Y-m-d H:M:S');
+            $dateSave = date('Y-m-d H:i:s');
             $new->date_created = $dateSave;
             if ($listNews->save($new)) {
                 $this->Flash->success(__('New salvo com sucesso.'));

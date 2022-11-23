@@ -15,12 +15,12 @@ class ReportsController extends AppController {
 
         /* -------------------- FORMULÁRIO GET - FILTRO -------------------- */
 
-        $dateStart = ($this->request->getQuery('datestart')) ? strftime("%Y-%m-%d %H:%M:%S", strtotime($this->request->getQuery('datestart'))): null;
-        $dateEnd = ($this->request->getQuery('dateend')) ? strftime("%Y-%m-%d %H:%M:%S", strtotime("+23 hours 59 seconds", strtotime($this->request->getQuery('dateend')))): null;
-        $stampStart = ($this->request->getQuery('datestart')) ? strftime("%d/%m/%Y", strtotime($this->request->getQuery('datestart'))): null;
-        $stampEnd = ($this->request->getQuery('dateend')) ? strftime("%d/%m/%Y", strtotime("+23 hours 59 seconds", strtotime($this->request->getQuery('dateend')))): null;
-        $insertStart = ($this->request->getQuery('datestart')) ? strftime("%Y-%m-%d", strtotime($this->request->getQuery('datestart'))): null;
-        $insertEnd = ($this->request->getQuery('dateend')) ? strftime("%Y-%m-%d", strtotime("+23 hours 59 seconds", strtotime($this->request->getQuery('dateend')))): null;
+        $dateStart = ($this->request->getQuery('datestart')) ? date("Y-m-d H:i:s", strtotime($this->request->getQuery('datestart'))): null;
+        $dateEnd = ($this->request->getQuery('dateend')) ? date("Y-m-d H:i:s", strtotime("+23 hours 59 seconds", strtotime($this->request->getQuery('dateend')))): null;
+        $stampStart = ($this->request->getQuery('datestart')) ? date("d/m/Y", strtotime($this->request->getQuery('datestart'))): null;
+        $stampEnd = ($this->request->getQuery('dateend')) ? date("d/m/Y", strtotime("+23 hours 59 seconds", strtotime($this->request->getQuery('dateend')))): null;
+        $insertStart = ($this->request->getQuery('datestart')) ? date("Y-m-d", strtotime($this->request->getQuery('datestart'))): null;
+        $insertEnd = ($this->request->getQuery('dateend')) ? date("Y-m-d", strtotime("+23 hours 59 seconds", strtotime($this->request->getQuery('dateend')))): null;
         $mensagemStamp = ($stampStart && $stampEnd) ? '' . $stampStart . ' - ' . $stampEnd . '': false;
         $this->set(compact('mensagemStamp'));
         $this->set(compact('insertStart'));

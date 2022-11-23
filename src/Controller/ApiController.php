@@ -528,8 +528,8 @@ class ApiController extends AppController
                 // Data de Compra - Efetuar Calculo
                 $dateBuy = (string) $singleService->date_buy;
                 $locationId = (int) $singleService->location_id;
-                $dataCompra = strftime("%Y-%m-01", strtotime($dateBuy));
-                $dateBuy = strftime("%m/%Y", strtotime($dateBuy));
+                $dataCompra = date("Y-m-01", strtotime($dateBuy));
+                $dateBuy = date("m/Y", strtotime($dateBuy));
 
                 // Verificando se existe dados
                 if (!isset($month[$dateBuy][$locationId])) {
@@ -552,7 +552,7 @@ class ApiController extends AppController
 
                 foreach ($singleMonth as $locationIdCurrent => $locationMoth) {
                     // Tratamento dos Dados
-                    $locationMoth['data_compra'] = strftime("%Y-%m-%d 23:59:59", strtotime(date("Y-m-t", strtotime($locationMoth['data_compra']))));
+                    $locationMoth['data_compra'] = date("Y-m-d 23:59:59", strtotime(date("Y-m-t", strtotime($locationMoth['data_compra']))));
                     $periodo = [ 'conditions' => [ 'OR' => [ [ 'date_devolution <= ' => $locationMoth['data_compra'], ] ], ] ];
                     $acumulado = $listSale->find('all', $periodo)->where(['client_id' => $clientId, 'location_id' => $locationIdCurrent]);
                     $acumuladoVendas = 0;
@@ -619,9 +619,9 @@ class ApiController extends AppController
             $clientInfo = $listClient->find()->where(['id' => $clientId])->first();
 
             // Data de Compra
-            $date_initial = strftime("%Y-%m-01", strtotime(date("Y-m-t", strtotime($date_end))));
-            $date_end = strftime("%Y-%m-%d", strtotime(date("Y-m-t", strtotime($date_end))));
-            $date_now = strftime("%Y-%m-%d %H:%M:%S", strtotime('now'));
+            $date_initial = date("Y-m-01", strtotime(date("Y-m-t", strtotime($date_end))));
+            $date_end = date("Y-m-d", strtotime(date("Y-m-t", strtotime($date_end))));
+            $date_now = date("Y-m-d H:i:s", strtotime('now'));
 
             // Periodo
             $periodo = [ 'conditions' => [ 'AND' => [ [ 'date_devolution >= ' => $date_initial, 'date_devolution <= ' => $date_end, ] ], ] ];
@@ -647,7 +647,7 @@ class ApiController extends AppController
 
             // Month Compra
             $monthReturnCertificate = array();
-            $monthCertificate['data_compra'] = strftime("%Y-%m-%d 23:59:59", strtotime(date("Y-m-t", strtotime($date_initial))));
+            $monthCertificate['data_compra'] = date("Y-m-d 23:59:59", strtotime(date("Y-m-t", strtotime($date_initial))));
             $periodo = [ 'conditions' => [ 'OR' => [ [ 'date_devolution <= ' => $date_end, ] ], ] ];
             $acumulado = $listSale->find('all', $periodo)->where(['client_id' => $clientId, 'location_id' => $locationId])->order(['date_devolution' => 'DESC']);
             $acumuladoVendas = 0;
@@ -678,9 +678,9 @@ class ApiController extends AppController
             $monthCertificate['familias'] = $acumuladoFamilias;
             $monthCertificate['pes'] = number_format($acumuladoPes, 0, ',', '.');
 
-            $monthCertificate['date_initial'] = strftime("01/%m/%Y", strtotime($date_initial));
-            $monthCertificate['date_slug'] = strftime("%Y-%m-01", strtotime($date_initial));
-            $monthCertificate['date_end'] = strftime("%d/%m/%Y", strtotime($date_end));
+            $monthCertificate['date_initial'] = date("01/m/Y", strtotime($date_initial));
+            $monthCertificate['date_slug'] = date("Y-m-01", strtotime($date_initial));
+            $monthCertificate['date_end'] = date("d/m/Y", strtotime($date_end));
 
             $locations = $listLocations->find('all')->where(['id' => $locationId]);
             foreach ($locations as $singleLocations) {

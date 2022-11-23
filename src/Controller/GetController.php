@@ -40,7 +40,7 @@ class GetController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $date = $this->request->getData('date');
             $sale = $salesTable->patchEntity($sale, $this->request->getData());
-            $sale->date = strftime("%Y-%m-%d %H:%M:%S", strtotime($date));
+            $sale->date = date("Y-m-d H:i:s", strtotime($date));
             if ($salesTable->save($sale)) {
                 $responseSale = [
                     'response' => 'A data da venda foi atualizada com sucesso.',
@@ -77,7 +77,7 @@ class GetController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $date = $this->request->getData('date');
             $lead = $leadsTable->patchEntity($lead, $this->request->getData());
-            $lead->date = strftime("%Y-%m-%d %H:%M:%S", strtotime($date));
+            $lead->date = date("Y-m-d H:i:s", strtotime($date));
             if ($leadsTable->save($lead)) {
                 $responseLead = [
                     'response' => 'A data da venda foi atualizada com sucesso.',
@@ -207,7 +207,7 @@ class GetController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $date = $this->request->getData('date');
             $cost = $costsTable->patchEntity($cost, $this->request->getData());
-            $cost->date = strftime("%Y-%m-%d", strtotime($date));
+            $cost->date = date("Y-m-d", strtotime($date));
             if ($costsTable->save($cost)) {
                 $responseCost = [
                     'response' => 'A data da venda foi atualizada com sucesso.',
@@ -274,7 +274,7 @@ class GetController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $date = $this->request->getData('date');
             $receipt = $receiptsTable->patchEntity($receipt, $this->request->getData());
-            $receipt->date = strftime("%Y-%m-%d", strtotime($date));
+            $receipt->date = date("Y-m-d", strtotime($date));
             if ($receiptsTable->save($receipt)) {
                 $responseReceipt = [
                     'response' => 'A data da venda foi atualizada com sucesso.',
