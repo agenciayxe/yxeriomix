@@ -108,20 +108,20 @@
                                         <tbody>
                                             <tr class="item-36896">
                                                 <td data-th="Última Devolução">
-                                                    <p><?= date("d/m/Y", strtotime($saleSingle->date_devolution)); ?></p>
+                                                    <p><?php echo date("d/m/Y", strtotime($saleSingle->date_devolution)); ?></p>
                                                 </td>
                                                 <td data-th="Economia no Mês">
                                                     <span class="nowrap">
-                                                        R$ <?= number_format($saleSingle->economia, 2, ',', '.') ?>
+                                                        R$ <?php $printEconomia = ($saleSingle->economia) ? number_format($saleSingle->economia, 2, ',', '.') : '0,00'; echo $printEconomia; ?>
                                                     </span>
                                                 </td>
                                                 <td data-th="Economia Acumulado">
                                                     <span class="nowrap">
-                                                        R$ <?= number_format($saleSingle->economia_acumulado, 2, ',', '.') ?>
+                                                        R$ <?php $printEconomiaAcumulado = ($saleSingle->economia_acumulado) ? number_format($saleSingle->economia_acumulado, 2, ',', '.') : '0,00'; echo $printEconomiaAcumulado; ?>
                                                     </span>
                                                 </td>
                                                 <td class="actions">
-                                                    <?= $this->Html->link(__('Ver Serviço'), ['controller' => 'Sales', 'action' => 'view', $saleSingle->id], ['class' => 'btn btn-pill mx-1 px-5 btn-primary']) ?>
+                                                    <?php echo $this->Html->link(__('Ver Serviço'), ['controller' => 'Sales', 'action' => 'view', $saleSingle->id], ['class' => 'btn btn-pill mx-1 px-5 btn-primary']) ?>
                                                 </td>
                                             </tr>
                                         </tbody>
