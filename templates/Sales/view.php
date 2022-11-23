@@ -49,7 +49,7 @@
                                     <?= $sale->has('client') ? $this->Html->link($sale->client->name, ['controller' => 'Clients', 'action' => 'view', $sale->client->id]) : '' ?>
                                 <p>
                                     <i class="far fa-clock"></i>
-                                    Data e Horário: <?= strftime("%d/%m/%Y - %H:%M", strtotime($sale->date_devolution)); ?>
+                                    Data e Horário: <?= date("d/m/Y - H:i", strtotime($sale->date_devolution)); ?>
                                 <p>
                                     <i class="far fa-clock"></i>
                                     Endereço: <?= $location->address . ' ' . $location->complement; ?>
