@@ -16,7 +16,7 @@
                     </div>
                     <div class="c-chart-wrapper my-3">
                         <div class="main-action text-right">
-                            <?= $this->Html->link(__('Adicionar Técnico'), ['action' => 'add'], ['class' => 'btn btn-pill mx-1 my-3 px-5 btn-primary']) ?>
+                            <?= $this->Html->link(__('Adicionar Usuário'), ['action' => 'add'], ['class' => 'btn btn-pill mx-1 my-3 px-5 btn-primary']) ?>
                         </div>
                         <div class="main-content">
                             <div class="row">
