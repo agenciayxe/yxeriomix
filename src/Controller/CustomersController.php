@@ -17,16 +17,16 @@ class CustomersController extends AppController {
 
     public function view($id = null) {
         $clientsTable = FactoryLocator::get('Table')->get('Clients');
-        $customer = $this->Customers->get($id, [
 
-        ]);
+        $customer = $this->Customers->get($id);
         $clientId = $customer->client_id;
+
         if ($clientId) {
             $listClient = $clientsTable->find('all')->where(['id' => $clientId]);
             $clientCurrent = $listClient->firstOrFail();
-
             $this->set(compact('clientCurrent'));
         }
+
         $this->set('customer', $customer);
     }
 
@@ -59,9 +59,7 @@ class CustomersController extends AppController {
         }
 
         $this->set(compact('customer'));
-
     }
-
     public function edit($id = null) {
         $listRoles = FactoryLocator::get('Table')->get('Roles');
         $allRoles = $listRoles->find('all');
@@ -79,9 +77,6 @@ class CustomersController extends AppController {
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             $customer = $this->Customers->patchEntity($customer, $this->request->getData());
-
-            // $passwordHash = new DefaultPasswordHasher();
-            // $customer->password = $passwordHash->hash($customer->password);
 
             if ($this->Customers->save($customer)) {
                 $this->Flash->success(__('The customer has been saved.'));

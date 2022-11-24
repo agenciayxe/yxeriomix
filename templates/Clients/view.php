@@ -65,14 +65,51 @@
                                     <td><?= h($client->email) ?></td>
                                 </tr>
                                 <tr>
-                                    <th><?= __('Usuário') ?></th>
-                                    <td><?= h($client->usarname) ?></td>
-                                </tr>
-                                <tr>
                                     <th><?= __('Status') ?></th>
                                     <td><?= $client->has('status') ? $client->status->title : '' ?></td>
                                 </tr>
                             </table>
+                            <div class="related">
+                                <?php if (!empty($listCustomers)) : ?>
+                                <h4 class="my-2"><?= __('Usuários') ?></h4>
+                                <div class="table-responsive">
+                                    <table class="table">
+
+                                        <thead>
+                                            <tr>
+                                                <th>Usuário</th>
+                                                <th>Nome</th>
+                                                <th>E-mail</th>
+                                                <th>Telefone</th>
+                                                <th class="actions"><?= __('Ações') ?></th>
+                                            </tr>
+                                        </thead>
+                                        <?php
+                                        foreach ($listCustomers as $singleCustomer) : ?>
+                                        <tbody>
+                                            <tr class="item-36896">
+                                                <td data-th="Usuário">
+                                                    <span class="nowrap"><?php echo $singleCustomer->username; ?></span>
+                                                </td>
+                                                <td data-th="Nome">
+                                                    <span class="nowrap"><?php echo $singleCustomer->name; ?></span>
+                                                </td>
+                                                <td data-th="E-mail">
+                                                    <span class="nowrap"><?php echo $singleCustomer->email; ?></span>
+                                                </td>
+                                                <td data-th="Telefone">
+                                                    <span class="nowrap"><?php echo $singleCustomer->phone; ?></span>
+                                                </td>
+                                                <td class="actions">
+                                                    <?php echo $this->Html->link(__('Ver Usuário'), ['controller' => 'Customers', 'action' => 'view', $singleCustomer->id], ['class' => 'btn btn-pill mx-1 px-5 btn-primary']) ?>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <?php endforeach; ?>
+                                    </table>
+                                </div>
+                                <?php endif; ?>
+                            </div>
                             <div class="related">
                                 <h4 class="my-2"><?= __('Recolhimentos') ?></h4>
                                 <?php if (!empty($client->sales)) : ?>
