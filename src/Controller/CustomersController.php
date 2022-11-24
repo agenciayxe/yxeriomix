@@ -48,9 +48,8 @@ class CustomersController extends AppController {
 
             $customer = $this->Customers->patchEntity($customer, $this->request->getData());
 
-            // $passwordHash = new DefaultPasswordHasher();
-            // $customer->password = $passwordHash->hash($customer->password);
             $customer->status = 1;
+            $customer->date_created = date("Y-m-d H:i:s", strtotime("NOW"));;
 
             if ($this->Customers->save($customer)) {
                 $this->Flash->success(__('The customer has been saved.'));
