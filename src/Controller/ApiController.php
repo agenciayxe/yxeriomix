@@ -48,11 +48,11 @@ class ApiController extends AppController
                             'username' => 'username',
                             'password' => 'password'
                         ],
-                        'userModel' => 'customers'
+                        'userModel' => 'Customers'
                     ],
                     'Basic' => [
                         'fields' => [ 'username' => 'username', 'password' => 'password'],
-                        'userModel' => 'customers'
+                        'userModel' => 'Customers'
                     ],
                 ]
             ]);
@@ -250,7 +250,6 @@ class ApiController extends AppController
         if ($this->request->getQuery('code') && $this->request->getQuery('email')) {
             $customerEmail = $this->request->getQuery('email');
             $tokenCode = $this->request->getQuery('code');
-
 
             $customer = $listCustomers->find('all')->where(['email' => $customerEmail]);
             $customerInfo = $customer->first();
