@@ -14,20 +14,22 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="row">
                         <div class="col-md-12 mt-3">
-                            <form action="<?php echo $this->Url->build(['controller' => 'news', 'action' => 'pesquisa']); ?>" class="new-search" method="GET">
+                            <form action="<?php echo $this->Url->build(['controller' => 'news', 'action' => 'pesquisa']); ?>" class="service-search" method="GET">
                                 <div class="row">
                                     <div class="col-md-8">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <input name="s" type="text" placeholder="Pesquisar Notícia" class="new-input form-control" value="">
+                                                <input name="s" type="text" placeholder="Pesquisar Notícias" class="service-input form-control" value="">
                                             </div>
                                             <div class="col-md-6">
                                                 <button type="submit" class="btn btn-pill mx-1 px-5 btn-primary">Filtrar</button>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <?= $this->Html->link(__('Adicionar Notícia'), ['action' => 'add'], ['class' => 'btn btn-pill float-right mx-1 btn-primary']) ?>
                                     </div>
                                 </div>
                             </form>
