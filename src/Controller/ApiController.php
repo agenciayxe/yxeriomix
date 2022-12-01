@@ -564,7 +564,7 @@ class ApiController extends AppController
                     }
 
                     // Calculo Final
-                    $acumuladoCoeficiente = $acumuladoDevolucoes / $acumuladoVendas;
+                    $acumuladoCoeficiente = ($acumuladoVendas) ? $acumuladoDevolucoes / $acumuladoVendas : 0;
                     $acumuladoFamilias = floor($acumuladoDevolucoes / 5000);
                     $acumuladoProtetometro = ($acumuladoDevolucoes / 5000);
                     $acumuladoEconomia = 0.8 * $acumuladoDevolucoes;
@@ -657,7 +657,7 @@ class ApiController extends AppController
             }
 
             // Calculo Final
-            $acumuladoCoeficiente = $acumuladoDevolucoes / $acumuladoVendas;
+            $acumuladoCoeficiente = ($acumuladoVendas) ? $acumuladoDevolucoes / $acumuladoVendas : 0;
             $acumuladoFamilias = floor($acumuladoDevolucoes / 5000);
             $acumuladoProtetometro = ($acumuladoDevolucoes / 5000);
             $acumuladoEconomia = 0.8 * $acumuladoDevolucoes;
