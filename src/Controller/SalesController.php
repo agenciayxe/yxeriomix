@@ -71,6 +71,7 @@ class SalesController extends AppController
                         $sale->client_id = $clientSave->id;
                         $sale->coeficiente = $sale->devolucao / $sale->vendas;
                         $sale->economia = 0.8 * $sale->devolucao;
+                        $sale->status = 1;
                         if ($this->Sales->save($sale)) {
                             $sale = $this->Sales->patchEntity($sale, $this->request->getData());
                             $this->Sales->save($sale);
@@ -132,6 +133,7 @@ class SalesController extends AppController
                         $sale->coeficiente = $sale->devolucao / $sale->vendas;
                         $sale->economia = 0.8 * $sale->devolucao;
                         $sale->location_id = $locationId;
+                        $sale->status = 1;
                         if ($this->Sales->save($sale)) {
                             $sale = $this->Sales->patchEntity($sale, $this->request->getData());
                             $this->Sales->save($sale);
