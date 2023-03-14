@@ -49,6 +49,7 @@ class SalesController extends AppController
         $client = $listClients->newEmptyEntity();
         $sale = $this->Sales->newEmptyEntity();
         $customer = $listCustomers->newEmptyEntity();
+
         if ($this->request->is('post')) {
             $client = $listClients->patchEntity($client, $this->request->getData());
             $client->status_id = 1;
@@ -80,6 +81,7 @@ class SalesController extends AppController
                             $customer = $listCustomers->patchEntity($customer, $this->request->getData());
                             $customer->client_id = $clientSave->id;
                             $customer->status = 1;
+                            $customer->date_created = date("Y-m-d H:i:s", strtotime('now'));
                             $passwordHash = new DefaultPasswordHasher();
                             $customer->password = $passwordHash->hash($customer->password);
                             $listCustomers->save($customer);
