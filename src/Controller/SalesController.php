@@ -69,6 +69,7 @@ class SalesController extends AppController
                     if ($this->request->is('post')) {
                         $sale = $this->Sales->patchEntity($sale, $this->request->getData());
                         $sale->client_id = $clientSave->id;
+                        $sale->location_id = $locationId;
                         $sale->coeficiente = $sale->devolucao / $sale->vendas;
                         $sale->economia = 0.8 * $sale->devolucao;
                         $sale->status = 1;
